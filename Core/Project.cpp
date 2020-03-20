@@ -5,6 +5,24 @@
 #include "Project.h"
 #include <algorithm>
 
+
+void Project::addTask(Task * task) {
+   associatedTasks.insert(task);
+}
+
+void Project::removeTask(Task& task) {
+
+   associatedTasks.erase(&task);
+
+    //TODO: where do I put NOJECT?
+    if(!task.isProjectDependant())
+    {}//transferTask(task, NOJECT);
+    else
+    {}// taskManager.removeTask(task);
+}
+
+//simple, boring Getters and Setters below
+
 float Project::getMinimumWeeklyHours() const {
     return minimumWeeklyHours;
 }
@@ -21,23 +39,33 @@ void Project::setMaximumWeeklyHours(float maximumWeeklyHours) {
     Project::maximumWeeklyHours = maximumWeeklyHours;
 }
 
-Task* Project::createTask() {
-   associatedTasks.emplace_back(std::move(Task{}));
-   return &associatedTasks.back();
+Project::Project(std::string name) : name(name), minimumWeeklyHours(0), maximumWeeklyHours(0)
+{}
+
+Project::~Project() {
+
+    for(Task* task : associatedTasks){
+        this->removeTask(*task);
+    }
+
+    //taskManager.removeProject();
 }
 
-void Project::removeTask(Task& task) {
-    //TODO: where do I put NOJECT?
-    if(!task.isProjectDependant())
-        ;//transferTask(task, NOJECT);
-
-   associatedTasks.erase(std::find(associatedTasks.begin(), associatedTasks.end(), task));
+//TODO: will this return correctly?
+std::unordered_set<Task *> Project::getTasks() {
+    return associatedTasks;
 }
 
-void Project::transferTask(Task &task, Project &targetProject) {
-
+const std::string &Project::getName() const {
+    return name;
 }
 
-Task* Project::accessTask(const int index){
-    return &associatedTasks.at(index);
+void Project::setName(const std::string &name) {
+    Project::name = name;
+}
+
+const unsigned int Project::getID() const{ return id; }
+
+bool operator==(const Project& lhs, const Project& rhs) {
+    return std::addressof(lhs) == std::addressof(rhs);
 }

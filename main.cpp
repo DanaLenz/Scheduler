@@ -1,24 +1,32 @@
 #include <iostream>
 #include "Core/Project.h"
+#include "Core/TaskManager.h"
+#include "UI/consoleUI.h"
 
 int main() {
+    //TODO: FIRST: redesign
+    //TODO: include tests
+    //TODO: look at similar open-source programs to get better ideas
     //TODO: the way of creating and accessing tasks needs to be different
-    Project p;
+    TaskManager* tm = TaskManager::getTaskManager();
 
-    auto ptr = p.createTask();
-    ptr->setName("Release the Ducks");
+    auto ducks = tm->createProject("Ducks");
+    auto roombas = tm->createProject("Roombas");
 
-    ptr = p.createTask();
-    ptr->setName("Summon");
+    auto dance = tm->createTask("Dance Numbers");
+    auto release = tm->createTask("Release the Ducks", ducks);
+    auto summon = tm->createTask("Summon", ducks);
+    auto pet = tm->createTask("Pet my Roomba", roombas);
+    auto empower = tm->createTask("Empower Roombas", roombas);
+    auto laser = tm->createTask("Put laser on Roomba", roombas);
 
-    for (const Task& t: p.associatedTasks) {
-        std::cout << t.getName() << std::endl;
-    }
 
-    p.removeTask(*ptr);
+    consoleUI::printTasks(tm);
 
-    for (const Task& t: p.associatedTasks) {
-        std::cout << t.getName() << std::endl;
+    for(auto p = tm->iteratorProjectsBegin();
+        p == tm->iteratorProjectsEnd();
+        p++) {
+        std::cout << p->getName() << std::endl;
     }
 
     std::cout << "Done!" << std::endl;
