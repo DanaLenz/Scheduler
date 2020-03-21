@@ -39,7 +39,7 @@ void Project::setMaximumWeeklyHours(float maximumWeeklyHours) {
     Project::maximumWeeklyHours = maximumWeeklyHours;
 }
 
-Project::Project(std::string name) : name(name), minimumWeeklyHours(0), maximumWeeklyHours(0)
+Project::Project(std::string name) : name(name), minimumWeeklyHours(0), maximumWeeklyHours(0), id(IDGenerator::getID())
 {}
 
 Project::~Project() {
@@ -64,7 +64,7 @@ void Project::setName(const std::string &name) {
     Project::name = name;
 }
 
-const unsigned int Project::getID() const{ return id; }
+ID Project::getID() const{ return id; }
 
 bool operator==(const Project& lhs, const Project& rhs) {
     return std::addressof(lhs) == std::addressof(rhs);

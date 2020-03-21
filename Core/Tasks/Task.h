@@ -33,9 +33,11 @@ public:
 
     //TODO: distributing the implementation of ID over 3 classes is not ideal
     // especially since it is identical for Task and Project
-    const unsigned int getID() const;
+    ID getID() const;
 
 private:
+    Task();
+
     std::string name;
     float neededTime;
     bool projectDependant;

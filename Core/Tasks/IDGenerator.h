@@ -10,10 +10,14 @@
 using ID = unsigned int;
 
 class IDGenerator {
-    static ID getID();
+
+public:
+    ID getID();
+
+private:
     static std::deque<ID> idPool;
-    ID nextID;
-    ID lastID;
+    unsigned int nextID;
+    unsigned int lastID;
 };
 
 

@@ -10,12 +10,16 @@ void Task::assignProject(Project * project) {
 }
 
 //TODO: constructor needs to assign to NOJECT
+
+Task::Task()
+        : neededTime(0), projectDependant(false), optional(false), id(IDGenerator::getID()) {}
+
 Task::Task(std::string name)
         : name(std::move(name)), neededTime(0), projectDependant(false), optional(false), assignedProject(nullptr), id(IDGenerator::getID()) {}
 
 Task::Task(std::string name, const Project& project)
         : name(std::move(name)), neededTime(0), projectDependant(false), optional(false),
-        assignedProject(&project) {}
+        assignedProject(&project), id(IDGenerator::getID()) {}
 
 bool operator==(const Task& lhs, const Task& rhs) {
     return std::addressof(lhs) == std::addressof(rhs);
@@ -24,7 +28,7 @@ bool operator==(const Task& lhs, const Task& rhs) {
 
 //warning: you are entering the dull, barren wasteland of setters and getters
 
-const unsigned int Task::getID() const{ return id; }
+ID Task::getID() const{ return id; }
 bool Task::isProjectDependant() const { return projectDependant; }
 bool Task::isOptional() const { return optional; }
 void Task::setProjectDependant(const bool val) { projectDependant = val; }

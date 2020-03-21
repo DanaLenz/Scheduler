@@ -5,7 +5,7 @@
 #ifndef SCHEDULER_CONSOLEUI_H
 #define SCHEDULER_CONSOLEUI_H
 
-#include "../Core/TaskManager.h"
+#include "../Core/Tasks/TaskManager.h"
 
 
 //This class exists for test purposes

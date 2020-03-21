@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Core/Project.h"
-#include "Core/TaskManager.h"
+#include "Core/Tasks/Project.h"
+#include "Core/Tasks/TaskManager.h"
 #include "UI/consoleUI.h"
 
 int main() {

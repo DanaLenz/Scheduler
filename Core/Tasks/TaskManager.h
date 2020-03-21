@@ -37,13 +37,17 @@ public:
 
     static TaskManager * getTaskManager();
 
-    ID createTask(std::string name);
-    ID createTask(std::string name, Project * project);
-    ID createProject(std::string name);
-    void deleteTask(ID id);
-    void deleteProject(ID id);
-    void assignProject(ID taskID, ID projectID) const;
-    void unassignProject(ID id) const;
+    const ID createTask(std::string name);
+    const ID createTask(std::string name, Project * project);
+    const ID createProject(std::string name);
+    void deleteTask(const ID id);
+    void deleteProject(const ID id);
+    void assignProject(const ID taskID, const ID projectID) const;
+    void assignProject(Task& task, Project& project) const;
+    void unassignProject(const ID id) const;
+
+    bool isTask(const ID id) const;
+    bool isProject(const ID id) const;
 
     std::vector<Project>::const_iterator iteratorProjectsBegin();
     std::vector<Project>::const_iterator iteratorProjectsEnd();
@@ -61,8 +65,8 @@ private:
     static Project NOJECT;
     TaskManager();
 
-    std::unordered_map<ID, Project> allProjects;
-    std::unordered_map<ID, Task> allTasks;
+    std::unordered_map<const ID, Project> allProjects;
+    std::unordered_map<const ID, Task> allTasks;
 };
 
 

@@ -10,7 +10,7 @@
 #include <iterator>
 #include <vector>
 #include "Task.h"
-#include "PriorityQueue.h"
+#include "../PriorityQueue.h"
 
 
 class Project {
@@ -32,7 +32,7 @@ public:
     const std::string &getName() const;
 
     void setName(const std::string &name);
-    const unsigned int getID() const;
+    ID getID() const;
 
 private:
 
