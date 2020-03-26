@@ -18,8 +18,9 @@ class Project {
 public:
 
     //TODO: Project constructors
-    Project(std::string name);
+    Project(std::string name, IDGenerator& idGenerator);
     ~Project();
+
 
     void removeTask(Task& task);
     void addTask(Task * task);
@@ -32,7 +33,9 @@ public:
     const std::string &getName() const;
 
     void setName(const std::string &name);
-    ID getID() const;
+    //ID getID() const;
+
+    void testPrint() const;
 
 private:
 
@@ -42,7 +45,7 @@ private:
     //TODO: project maximum and minimum weekly hours
     float minimumWeeklyHours;
     float maximumWeeklyHours;
-    std::unordered_set<Task*> associatedTasks;
+    //std::unordered_set<Task*> associatedTasks;
     //TODO: Project Tags
     const unsigned int id;
 

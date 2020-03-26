@@ -15,9 +15,9 @@ public:
     ID getID();
 
 private:
-    static std::deque<ID> idPool;
-    unsigned int nextID;
-    unsigned int lastID;
+    std::deque<ID> idPool;
+    ID nextID;
+    ID lastID;
 };
 
 

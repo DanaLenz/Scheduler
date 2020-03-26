@@ -20,15 +20,16 @@ int main() {
     auto empower = tm->createTask("Empower Roombas", roombas);
     auto laser = tm->createTask("Put laser on Roomba", roombas);
 
+    tm->testPrint();
 
-    consoleUI::printTasks(tm);
+    tm->transferTask(summon, roombas);
+    tm->transferTask(pet);
 
-    for(auto p = tm->iteratorProjectsBegin();
-        p == tm->iteratorProjectsEnd();
-        p++) {
-        std::cout << p->getName() << std::endl;
-    }
+    tm->testPrint();
 
-    std::cout << "Done!" << std::endl;
+    tm->deleteProject(ducks);
+
+    tm->testPrint();
+
     return 0;
 }

@@ -17,11 +17,11 @@ class Task {
 
 public:
 
-    explicit Task(std::string name);
-    Task(std::string name, const Project& project);
+    Task(std::string name, IDGenerator& idGenerator, ID project);
 
-    const Project* getAssignedProject() const;
-    void assignProject(Project * project);
+    //ID getAssignedProjectID() const;
+    //void assignProject(ID projectID);
+
     bool isProjectDependant() const;
     bool isOptional() const;
     void setProjectDependant(bool val);
@@ -31,19 +31,17 @@ public:
     float getNeededTime() const;
     void setNeededTime(float neededTime);
 
-    //TODO: distributing the implementation of ID over 3 classes is not ideal
-    // especially since it is identical for Task and Project
-    ID getID() const;
+    //ID getID() const;
+
 
 private:
-    Task();
 
     std::string name;
     float neededTime;
     bool projectDependant;
     bool optional;
     //TODO: can the assigned Project be const?
-    const Project* assignedProject;
+    ID assignedProjectID;
     ID id;
 
     //TODO: task recurrence

@@ -4,22 +4,18 @@
 
 #include "Project.h"
 #include <algorithm>
+#include <iostream>
 
 
 void Project::addTask(Task * task) {
    associatedTasks.insert(task);
 }
 
-void Project::removeTask(Task& task) {
-
-   associatedTasks.erase(&task);
-
-    //TODO: where do I put NOJECT?
-    if(!task.isProjectDependant())
-    {}//transferTask(task, NOJECT);
-    else
-    {}// taskManager.removeTask(task);
+void Project::removeTask(Task& task){
+    associatedTasks.erase(&task);
 }
+
+
 
 //simple, boring Getters and Setters below
 
@@ -39,7 +35,7 @@ void Project::setMaximumWeeklyHours(float maximumWeeklyHours) {
     Project::maximumWeeklyHours = maximumWeeklyHours;
 }
 
-Project::Project(std::string name) : name(name), minimumWeeklyHours(0), maximumWeeklyHours(0), id(IDGenerator::getID())
+Project::Project(std::string name, IDGenerator& idGenerator) : name(name), minimumWeeklyHours(0), maximumWeeklyHours(0), id(idGenerator.getID())
 {}
 
 Project::~Project() {
@@ -68,4 +64,13 @@ ID Project::getID() const{ return id; }
 
 bool operator==(const Project& lhs, const Project& rhs) {
     return std::addressof(lhs) == std::addressof(rhs);
+}
+
+void Project::testPrint() const {
+    std::cout << "Project: " << this->getName() << std::endl;
+    std::cout << "Associated Tasks: " << std::endl;
+    for(const auto& t : associatedTasks){
+        std::cout << t->getName() << std::endl;
+    }
+    std::cout << std::endl;
 }

@@ -38,19 +38,28 @@ public:
     static TaskManager * getTaskManager();
 
     const ID createTask(std::string name);
-    const ID createTask(std::string name, Project * project);
+    const ID createTask(std::string name, ID projectID);
+
     const ID createProject(std::string name);
+
     void deleteTask(const ID id);
     void deleteProject(const ID id);
-    void assignProject(const ID taskID, const ID projectID) const;
-    void assignProject(Task& task, Project& project) const;
-    void unassignProject(const ID id) const;
+
+    void transferTask(Task& task, Project& newProject);
+
+    void unassignProject(const ID id);
+    void unassignProject(Task& task);
 
     bool isTask(const ID id) const;
     bool isProject(const ID id) const;
 
-    std::vector<Project>::const_iterator iteratorProjectsBegin();
-    std::vector<Project>::const_iterator iteratorProjectsEnd();
+    Project& getProject(const ID& id);
+    Task& getTask(const ID& id);
+
+    void testPrint() const;
+
+    //ContainerProject::const_iterator iteratorProjectsBegin();
+    //ContainerProject::const_iterator iteratorProjectsEnd();
 
     //std::vector<Task>::const_iterator iteratorTasksBegin();
     //std::vector<Task>::const_iterator iteratorTasksEnd();
@@ -62,11 +71,15 @@ public:
 
 private:
     static TaskManager * globalTaskManager;
-    static Project NOJECT;
+    ID NOJECT;
     TaskManager();
+    IDGenerator idGenerator;
 
-    std::unordered_map<const ID, Project> allProjects;
-    std::unordered_map<const ID, Task> allTasks;
+    void assignProject(const ID taskID, const ID projectID);
+    void assignProject(Task& task, Project& project);
+
+    std::unordered_map<ID, Project> allProjects;
+    std::unordered_map<ID, Task> allTasks;
 };
 
 
