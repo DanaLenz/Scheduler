@@ -9,6 +9,7 @@
 #include <memory>
 #include <deque>
 #include <unordered_map>
+#include <set>
 #include "Project.h"
 #include "Task.h"
 #include "IDGenerator.h"
@@ -37,49 +38,44 @@ public:
 
     static TaskManager * getTaskManager();
 
-    const ID createTask(std::string name);
-    const ID createTask(std::string name, ID projectID);
+    ID createTask(std::string name);
+    ID createTask(std::string name, ID project);
 
-    const ID createProject(std::string name);
+    ID createProject(std::string name);
 
-    void deleteTask(const ID id);
-    void deleteProject(const ID id);
+    void deleteTask(ID task);
+    void deleteProject(ID project);
 
-    void transferTask(Task& task, Project& newProject);
+    void transferTask(ID task, ID newProject);
 
-    void unassignProject(const ID id);
-    void unassignProject(Task& task);
-
-    bool isTask(const ID id) const;
-    bool isProject(const ID id) const;
-
-    Project& getProject(const ID& id);
-    Task& getTask(const ID& id);
+    void removeTask(ID task);
+    void unassignTask(ID task);
 
     void testPrint() const;
 
-    //ContainerProject::const_iterator iteratorProjectsBegin();
-    //ContainerProject::const_iterator iteratorProjectsEnd();
-
-    //std::vector<Task>::const_iterator iteratorTasksBegin();
-    //std::vector<Task>::const_iterator iteratorTasksEnd();
-
-    //std::vector<Task>::const_iterator iteratorProjectTasksBegin(Project& project);
-    //std::vector<Task>::const_iterator iteratorProjectTasksEnd(Project& project);
+    Project& getProject(const ID& id);
+    Task& getTask(const ID& id);
+    Project& associatedProject(const ID& task);
+    std::vector<Task *> associatedTasks(const ID& project);
 
     //TODO: save project and task data
 
 private:
     static TaskManager * globalTaskManager;
-    ID NOJECT;
+    ID NOJECT; //TODO: re-implement NOJECT
     TaskManager();
-    IDGenerator idGenerator;
 
-    void assignProject(const ID taskID, const ID projectID);
-    void assignProject(Task& task, Project& project);
+    void assignProject(ID task, ID project);
 
-    std::unordered_map<ID, Project> allProjects;
+    bool validateTaskID(ID id);
+    bool validateProjectID(ID id);
+
+    IDGenerator idGeneratorTasks;
+    IDGenerator idGeneratorProjects;
+
     std::unordered_map<ID, Task> allTasks;
+    std::unordered_map<ID, Project> allProjects;
+
 };
 
 

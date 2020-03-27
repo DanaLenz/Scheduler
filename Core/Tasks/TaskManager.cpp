@@ -10,140 +10,105 @@
 
 TaskManager * TaskManager::globalTaskManager = TaskManager::getTaskManager();
 
+TaskManager::TaskManager() {
+    allTasks = {};
+    allProjects = {};
+
+    NOJECT = createProject("Unassigned");
+}
+
 TaskManager *TaskManager::getTaskManager() {
     if(globalTaskManager == nullptr)
         globalTaskManager = new TaskManager();
     return globalTaskManager;
 }
 
-const ID TaskManager::createTask(std::string name, ID projectID) {
-    Task task {std::move(name), idGenerator, projectID};
-    allTasks.insert(std::make_pair(task.getID(), task));
-    assignProject(task.getID(), projectID);
+ID TaskManager::createTask(std::string name, ID project) {
+
+    ID id = idGeneratorTasks.getID();
+    allTasks.insert({id, Task {std::move(name)}});
+    assignProject(id, project);
+    return id;
 }
 
-const ID TaskManager::createTask(std::string name) {
+ID TaskManager::createTask(std::string name) {
     return createTask(name, NOJECT);
 }
 
-const ID TaskManager::createProject(std::string name) {
-    Project project {name, idGenerator};
-    allProjects.insert(std::make_pair(project.getID(), project));
-    return project.getID();
+ID TaskManager::createProject(std::string name) {
+    ID id = idGeneratorProjects.getID();
+    allProjects.insert({id, Project {std::move(name)}});
+    return id;
 }
 
-void TaskManager::deleteTask(ID taskID) {
-    assert(taskID < allTasks.size() + allProjects.size() && "Invalid ID passed to deleteTask in TaskManager");
-    unassignProject(taskID);
-    allTasks.erase(taskID);
+void TaskManager::transferTask(ID task, ID newProject) {
+    auto& oldProjectID = allTasks.at(task).assignedProject;
+    auto& oldList = allProjects.at(oldProjectID).assignedTasks;
+    oldList.erase(std::remove(oldList.begin(), oldList.end(), task));
+    assignProject(task, newProject);
 }
 
-void TaskManager::deleteProject(ID projectID) {
-    assert(projectID < allTasks.size() + allProjects.size() && "Invalid ID passed to deleteProject in TaskManager");
-    //reassign all project independent tasks
-    //delete all project dependant tasks
-    //then delete the project
-    Project& project = allProjects.at(projectID);
-    for(Task* task : project.getTasks()) {
-        if(task->isProjectDependant())
-            deleteTask(task->getID());
-        else
-            assignProject(task->getID(), NOJECT);
-    }
-
-    allProjects.erase(projectID);
+void TaskManager::unassignTask(ID task) {
+    transferTask(task, NOJECT);
 }
 
-bool TaskManager::isTask(const ID id) const {
-    return allTasks.count(id) != 0;
+void TaskManager::assignProject(ID task, ID project){
+    allTasks.at(task).assignedProject = project;
+    allProjects.at(project).assignedTasks.push_back(task);
 }
 
-bool TaskManager::isProject(const ID id) const {
-    return allProjects.count(id) != 0;
-}
-
-//TODO: error catching in assignProject
-//TODO: make the argument order optional
-void TaskManager::assignProject(ID id1, ID id2) {
-    assert(id1 < allTasks.size() + allProjects.size() && "Invalid ID passed to assignProject in TaskManager");
-    assert(id2 < allTasks.size() + allProjects.size() && "Invalid ID passed to assignProject in TaskManager");
-
-
-    if (isTask(id1))
-        if(isProject(id2))
-        {
-            Task& task = allTasks.at(id1);
-            Project& project = allProjects.at(id2);
-            assignProject(task, project);
-        }
-        else
-        {
-            //Error
-        }
-    else if(isProject(id1)) {
-        if(isTask(id2)){
-            Project& project = allProjects.at(id1);
-            Task& task = allTasks.at(id2);
-            assignProject(task, project);
-        }
-        else {
-            //Error
-        }
-    }
-    else {
-        //Error
-    }
-
-}
-
-void TaskManager::assignProject(Task &task, Project &project){
-    task.assignProject(project.getID());
-    project.addTask(&task);
-}
-
-void transferTask(Task& task, Project& newProject) {
-    Project& oldProject = getProject(task.getAssignedProjectID());
-    oldProject.removeTask(task);
-    newProject.addTask(task);
-    task.assignProject(newProject.getID());
-}
-
-//TODO: un-mess unassignProject
-void TaskManager::unassignProject(const ID taskid) {
-    assert(taskid < allTasks.size() + allProjects.size() && "Invalid ID passed to unassignProject in TaskManager");
-    Task& task = allTasks.at(taskid);
-    getProject(task.getAssignedProjectID()).removeTask(task);
-    if(task.getAssignedProjectID() != NOJECT)
-        assignProject(taskid, NOJECT);
-}
-
-void TaskManager::unassignProject(Task& task){
-    unassignProject(task.getID());
-}
-
-
-TaskManager::TaskManager() {
-    allTasks = {};
-    allProjects = {};
-    idGenerator = IDGenerator();
-
-    NOJECT = createProject("Unassigned");
-}
-
-void TaskManager::testPrint() const {
-    for (const auto& [id, p] : this->allProjects) {
-        p.testPrint();
-    }
-
-}
-
-Project &TaskManager::getProject(const ID& id) {
-    assert(id < allTasks.size() + allProjects.size() && "Invalid ID passed to getProject in TaskManager");
-    return allProjects.at(id);
-}
-
-Task &TaskManager::getTask(const ID& id) {
-    assert(id < allTasks.size() + allProjects.size() && "Invalid ID passed to getTask in TaskManager");
+Task& TaskManager::getTask(const ID& id) {
     return allTasks.at(id);
 }
 
+Project& TaskManager::getProject(const ID& id) {
+    return allProjects.at(id);
+}
+
+Project& TaskManager::associatedProject(const ID& task) {
+    return getProject(allTasks.at(task).assignedProject);
+}
+
+std::vector<Task *> TaskManager::associatedTasks(const ID& project) {
+    std::vector<Task*> pointies;
+    for(const ID& id : allProjects.at(project).assignedTasks) {
+        pointies.push_back(&getTask(id));
+    }
+    return pointies;
+}
+
+//TODO: duplicated, container dependant code in TaskManager
+void TaskManager::deleteTask(ID task) {
+    auto& oldProjectID = allTasks.at(task).assignedProject;
+    auto& oldList = allProjects.at(oldProjectID).assignedTasks;
+    oldList.erase(std::remove(oldList.begin(), oldList.end(), task));
+    allTasks.erase(task);
+}
+
+void TaskManager::deleteProject(ID project) {
+    for(const auto& task : allProjects.at(project).assignedTasks) {
+        if(allTasks.at(task).isProjectDependant())
+            deleteTask(task);
+        else
+            unassignTask(task);
+    }
+    allProjects.erase(project);
+}
+
+void TaskManager::testPrint() const {
+    std::cout << std::endl;
+    std::cout << "TEST PRINT" << std::endl;
+    std::cout << std::endl;
+
+    for (const auto& [id, project] : this->allProjects) {
+        std::cout << "Project: " << "ID: " << id << " Name: "<< project.getName() << std::endl;
+        std::cout << "Assigned Tasks: " << std::endl;
+        for(const auto& task : project.assignedTasks)
+            std::cout << "ID: " << task << " Name: " << allTasks.at(task).getName() << std::endl;
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+    std::cout << "TEST PRINT END" << std::endl;
+    std::cout << std::endl;
+}

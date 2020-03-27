@@ -5,22 +5,21 @@
 #ifndef SCHEDULER_TASK_H
 #define SCHEDULER_TASK_H
 
-class Project;
+
 
 //#include "Project.h"
 //#include "boost/date_time/gregorian/gregorian.hpp"
 #include <string>
 #include "IDGenerator.h"
 
+class Project;
 
 class Task {
 
+    friend class TaskManager;
 public:
 
-    Task(std::string name, IDGenerator& idGenerator, ID project);
-
-    //ID getAssignedProjectID() const;
-    //void assignProject(ID projectID);
+    Task(std::string name);
 
     bool isProjectDependant() const;
     bool isOptional() const;
@@ -31,8 +30,6 @@ public:
     float getNeededTime() const;
     void setNeededTime(float neededTime);
 
-    //ID getID() const;
-
 
 private:
 
@@ -40,10 +37,10 @@ private:
     float neededTime;
     bool projectDependant;
     bool optional;
-    //TODO: can the assigned Project be const?
-    ID assignedProjectID;
+
     ID id;
 
+    ID assignedProject;
     //TODO: task recurrence
     //TODO: task deadlines
 };

@@ -23,7 +23,7 @@ int main() {
     tm->testPrint();
 
     tm->transferTask(summon, roombas);
-    tm->transferTask(pet);
+    tm->unassignTask(pet);
 
     tm->testPrint();
 
