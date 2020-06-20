@@ -17,7 +17,7 @@ int main() {
     auto release = tm->createTask("Release the Ducks", ducks);
     auto summon = tm->createTask("Summon", ducks);
     auto pet = tm->createTask("Pet my Roomba", roombas);
-    auto empower = tm->createTask("Empower Roombas", roombas);
+    auto empower = tm->createTask("Appease Roomba Superintelligence", roombas);
     auto laser = tm->createTask("Put laser on Roomba", roombas);
 
     tm->testPrint();

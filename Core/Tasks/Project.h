@@ -27,6 +27,8 @@ public:
     void setMaximumWeeklyHours(float maximumWeeklyHours);
     const std::string &getName() const;
 
+    bool isTaskAssigned(ID taskID);
+
     void setName(const std::string &name);
 
 private:

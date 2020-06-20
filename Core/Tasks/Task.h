@@ -12,7 +12,6 @@
 #include <string>
 #include "IDGenerator.h"
 
-class Project;
 
 class Task {
 
@@ -40,7 +39,6 @@ private:
 
     ID id;
 
-    ID assignedProject;
     //TODO: task recurrence
     //TODO: task deadlines
 };

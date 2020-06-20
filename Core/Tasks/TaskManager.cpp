@@ -42,7 +42,7 @@ ID TaskManager::createProject(std::string name) {
 }
 
 void TaskManager::transferTask(ID task, ID newProject) {
-    auto& oldProjectID = allTasks.at(task).assignedProject;
+    ID oldProjectID = getAssignedProject(task);
     auto& oldList = allProjects.at(oldProjectID).assignedTasks;
     oldList.erase(std::remove(oldList.begin(), oldList.end(), task));
     assignProject(task, newProject);
@@ -53,7 +53,6 @@ void TaskManager::unassignTask(ID task) {
 }
 
 void TaskManager::assignProject(ID task, ID project){
-    allTasks.at(task).assignedProject = project;
     allProjects.at(project).assignedTasks.push_back(task);
 }
 
@@ -66,7 +65,7 @@ Project& TaskManager::getProject(const ID& id) {
 }
 
 Project& TaskManager::associatedProject(const ID& task) {
-    return getProject(allTasks.at(task).assignedProject);
+    return getProject(getAssignedProject(task));
 }
 
 std::vector<Task *> TaskManager::associatedTasks(const ID& project) {
@@ -79,7 +78,7 @@ std::vector<Task *> TaskManager::associatedTasks(const ID& project) {
 
 //TODO: duplicated, container dependant code in TaskManager
 void TaskManager::deleteTask(ID task) {
-    auto& oldProjectID = allTasks.at(task).assignedProject;
+    ID oldProjectID = getAssignedProject(task);
     auto& oldList = allProjects.at(oldProjectID).assignedTasks;
     oldList.erase(std::remove(oldList.begin(), oldList.end(), task));
     allTasks.erase(task);
@@ -111,4 +110,12 @@ void TaskManager::testPrint() const {
     std::cout << std::endl;
     std::cout << "TEST PRINT END" << std::endl;
     std::cout << std::endl;
+}
+
+const ID TaskManager::getAssignedProject(const ID taskID) const {
+    for(auto it : allProjects) {
+        if(it.second.isTaskAssigned(taskID))
+            return it.first;
+    }
+    //TODO: Error here
 }

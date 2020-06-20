@@ -39,3 +39,7 @@ void Project::setName(const std::string &name) {
 bool operator==(const Project& lhs, const Project& rhs) {
     return std::addressof(lhs) == std::addressof(rhs);
 }
+
+bool Project::isTaskAssigned(ID taskID) {
+    return std::find(assignedTasks.begin(), assignedTasks.end(), taskID) != assignedTasks.end();
+}

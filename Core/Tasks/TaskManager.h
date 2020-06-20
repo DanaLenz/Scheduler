@@ -41,6 +41,8 @@ public:
     ID createTask(std::string name);
     ID createTask(std::string name, ID project);
 
+    const ID getAssignedProject(const ID taskID) const;
+
     ID createProject(std::string name);
 
     void deleteTask(ID task);
