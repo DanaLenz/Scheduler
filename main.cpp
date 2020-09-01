@@ -2,6 +2,9 @@
 #include "Core/Tasks/Project.h"
 #include "Core/Tasks/TaskManager.h"
 #include "UI/consoleUI.h"
+#include "Core/Calendar/CalendarGenerator.h"
+
+#include "boost/date_time/gregorian/gregorian.hpp"
 
 int main() {
     //TODO: FIRST: redesign
@@ -20,16 +23,16 @@ int main() {
     auto empower = tm->createTask("Appease Roomba Superintelligence", roombas);
     auto laser = tm->createTask("Put laser on Roomba", roombas);
 
-    tm->testPrint();
 
-    tm->transferTask(summon, roombas);
-    tm->unassignTask(pet);
+    CalendarGenerator calendar{};
+    calendar.createTimeslotRule('wednesday', 16, 30);
+    calendar.createTimeslotRule('friday 2', 13.15, 90);
+    calendar.createTimeslotRule('monday tuesday 2', 14, 120);
+    calendar.createTimeslots(30);
+    calendar.printTimeslots();
 
-    tm->testPrint();
-
-    tm->deleteProject(ducks);
-
-    tm->testPrint();
+    //priorityQ.oder();
+    //scheduler.schedule();
 
     return 0;
 }

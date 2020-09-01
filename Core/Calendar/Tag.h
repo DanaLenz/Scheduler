@@ -12,10 +12,12 @@
 class Tag {
 
 public:
+    //TODO: rework the Tag class, it makes no sense
+
     Tag(std::string name);
-    ~Tag();
+    ~Tag() = default;
     Tag(const Tag& original) = delete;
-    Tag(Tag&& original); //TODO: move constructor?
+    Tag(Tag&& original) = delete;
     Tag& operator=(const Tag& original) = delete;
     Tag& operator=(Tag&& original) noexcept = delete;
 

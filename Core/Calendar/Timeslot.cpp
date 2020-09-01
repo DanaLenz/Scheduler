@@ -4,20 +4,20 @@
 
 #include "Timeslot.h"
 
-const boost::posix_time::ptime &Timeslot::getStartTime() const {
+const TimePeriod &Timeslot::getStartTime() const {
     return startTime;
 }
 
-void Timeslot::setStartTime(const boost::posix_time::ptime &startTime) {
+void Timeslot::setStartTime(const TimePeriod &startTime) {
     Timeslot::startTime = startTime;
 }
 
-const boost::posix_time::time_period &Timeslot::getDuration() const {
+const TimePeriod &Timeslot::getDuration() const {
     return duration;
 }
 
-//TODO: changing time information in Timeslots might change their positions in a Calendar
-void Timeslot::setDuration(const boost::posix_time::time_period &duration) {
+//TODO: changing time information in Timeslots might change their positions in a CalendarGenerator
+void Timeslot::setDuration(const TimePeriod &duration) {
     Timeslot::duration = duration;
 }
 
@@ -31,4 +31,23 @@ bool Timeslot::isAssigned() const {
 
 void Timeslot::unassign() {
     assignedTask = nullptr;
+}
+
+Timeslot::Timeslot(const Date &date, const TimePeriod &startTime, const TimePeriod &duration)
+: date{date}, startTime{startTime}, duration{duration} {}
+
+const Date &Timeslot::getDate() const {
+    return date;
+}
+
+void Timeslot::setDate(const Date &date) {
+    Timeslot::date = date;
+}
+
+bool operator<(const Timeslot& lhs, const Timeslot& rhs) {
+
+    if(lhs.getDate() != rhs.getDate())
+        return lhs.getDate() < rhs.getDate();
+    else
+        return lhs.getStartTime() < rhs.getStartTime();
 }

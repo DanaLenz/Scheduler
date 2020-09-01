@@ -15,9 +15,10 @@ if(Boost_FOUND)
             Core/Tasks/TaskManager.cpp Core/Tasks/TaskManager.h
             Core/Tasks/IDGenerator.cpp
             Core/Tasks/IDGenerator.h
-            #Core/Calendar/Timeslot.cpp Core/Calendar/Timeslot.h Core/Calendar/Calendar.cpp
-            #Core/Calendar/Calendar.h
-            Core/Calendar/TimeslotRule.cpp Core/Calendar/TimeslotRule.h)
+            Core/Calendar/Timeslot.cpp Core/Calendar/Timeslot.h Core/Calendar/CalendarGenerator.cpp
+            Core/Calendar/CalendarGenerator.h
+            Core/Calendar/TimeslotRule.cpp Core/Calendar/TimeslotRule.h
+            Core/Calendar/Definitions.h Core/Calendar/CalendarGenerator.cpp Core/Calendar/CalendarGenerator.h Core/Calendar/Calendar.cpp Core/Calendar/Calendar.h)
 
 #    target_link_libraries(progname Boost::filesystem)
 else()
