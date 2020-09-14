@@ -16,22 +16,23 @@ int main() {
     auto ducks = tm->createProject("Ducks");
     auto roombas = tm->createProject("Roombas");
 
-    auto dance = tm->createTask("Dance Numbers");
-    auto release = tm->createTask("Release the Ducks", ducks);
-    auto summon = tm->createTask("Summon", ducks);
-    auto pet = tm->createTask("Pet my Roomba", roombas);
-    auto empower = tm->createTask("Appease Roomba Superintelligence", roombas);
-    auto laser = tm->createTask("Put laser on Roomba", roombas);
+    auto dance = tm->createTask("make your statement, face your fear");
+    auto release = tm->createTask("release the ducks", ducks);
+    auto summon = tm->createTask("dummon", ducks);
+    auto pet = tm->createTask("put laser on roomba", roombas);
+    auto empower = tm->createTask("appease superintelligence", roombas);
 
 
-    CalendarGenerator calendar{};
-    calendar.createTimeslotRule('wednesday', 16, 30);
-    calendar.createTimeslotRule('friday 2', 13.15, 90);
-    calendar.createTimeslotRule('monday tuesday 2', 14, 120);
-    calendar.createTimeslots(30);
+    CalendarGenerator cG{};
+    cG.createTimeslotRule(3, 16, 0, 30);
+    cG.createTimeslotRule(5, 13, 15, 90);
+    cG.createTimeslotRule(4, 14, 45, 120);
+    cG.createTimeslotRule(4, 11, 0, 30);
+    cG.printRules();
+    Calendar calendar = cG.generateCalendar(boost::gregorian::date(2021, 01,01), boost::gregorian::date(2021, 01, 07));
     calendar.printTimeslots();
 
-    //priorityQ.oder();
+    //priorityQ.order();
     //scheduler.schedule();
 
     return 0;

@@ -36,7 +36,7 @@ private:
     TimePeriod startTime;
     TimePeriod duration;
 
-    std::vector<Tag> tags;
+    //std::vector<Tag> tags;
     Task* assignedTask = nullptr;
 };
 

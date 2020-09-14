@@ -43,6 +43,6 @@ private:
     //TODO: task deadlines
 };
 
-bool operator==(const Task& lhs, const Task& rhs);
+//bool operator==(const Task& lhs, const Task& rhs);
 
 #endif //SCHEDULER_TASK_H

@@ -7,11 +7,12 @@
 
 #include "Definitions.h"
 #include "Timeslot.h"
-#include "CalendarGenerator.h"
+#include "TimeslotRule.h"
 #include <vector>
 
-class Calendar {
+class CalendarGenerator;
 
+class Calendar {
 
     friend CalendarGenerator;
 
@@ -34,8 +35,11 @@ public:
 
     // TODO: In Calendar: delete function taking an iterator
     // removes one specified timeslot from the calendar
-    void deleteTimeslot(Timeslot &timeslot);
-    //void deleteTimeslot(std::const_iterator<>)
+    void deleteTimeslot(std::vector<Timeslot>::iterator);
+
+    // print functions for debugging
+    void printInfo() const;
+    void printTimeslots() const;
 
 private:
 

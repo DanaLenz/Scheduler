@@ -13,31 +13,23 @@ class TimeslotRule {
 
 public:
 
-    TimeslotRule(Weekday &weekday, TimePeriod &startTime, TimePeriod& duration);
+    TimeslotRule(const Weekday &weekday, const TimePeriod &startTime, const TimePeriod &duration);
 
     //For Scheduler:
     Timeslot createTimeslot(const Date& date) const;
 
     //For the Interface:
-    const TimePoint &getStartTime() const;
-    void setStartTime(const TimePeriod &startTime);
-
-    //TODO: why do automatically generated getters have '&' before function name?
+    const TimePeriod &getStartTime() const;
     const TimePeriod &getDuration() const;
-    void setDuration(const TimePeriod &duration);
-
-
-    void setWeekday(const Weekday &weekday);
-    const bool getWeekday() const;
+    const Weekday getWeekday() const;
 
 private:
 
     TimePeriod startTime;
     TimePeriod duration;
+    Weekday weekday;
 
-    boost::gregorian::greg_weekday weekday;
-
-    std::vector<Tag> tags;
+//    std::vector<Tag> tags;
 
 };
 

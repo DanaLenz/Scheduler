@@ -4,48 +4,42 @@
 
 #include "CalendarGenerator.h"
 
-
-void CalendarGenerator::createTimeslotRule(std::string weekday_str, float startTime, size_t duration) {
-
-    timeslotRules.emplace();
+void CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes,
+                                           const long duration) {
+    Weekday boost_weekday {weekday_num};
+    TimePeriod boost_startTime {start_hour, start_minutes, 0};
+    TimePeriod boost_duration {duration/60, duration%60, 0};
+    timeslotRules.emplace(boost_weekday, boost_startTime, boost_duration);
 }
+
 
 void CalendarGenerator::deleteTimeslotRule(TimeslotRule &timeslotRule) {
     timeslotRules.erase(timeslotRule);
 }
 
+
 //TODO: In CalendarGenerator: Is there a more organic way to iterate over a date period?
-Calendar* CalendarGenerator::generateCalendar(const Date &firstDay, const Date &lastDay) {
+Calendar CalendarGenerator::generateCalendar(const Date &firstDay, const Date &lastDay) const {
 
-    Calendar* calendar_ptr = new Calendar{firstDay, lastDay};
+    Calendar* calendar = new Calendar{firstDay, lastDay};
 
-    if (timeslotRules.empty()) return calendar_ptr;
+    if (timeslotRules.empty()) return *calendar;
 
     for(Date currDay = firstDay; currDay <= lastDay; currDay += boost::gregorian::date_duration(1))
         for(auto &tsr : timeslotRules)
-            calendar_ptr->appendTimeslot(tsr, currDay);
+            if(tsr.getWeekday() == currDay.day_of_week())
+                calendar->appendTimeslot(tsr, currDay);
 
+     return *calendar;
+}
 
- /*   //there is a set number of tsr, each creating exactly one timeslot
-    //they are ordered
-    //so can calculate in advance which positions which timeslots will have
+void CalendarGenerator::printRules() const {
 
-    size_t offset = 0;
-    size_t tsr_size = timeslotRules.size();
-
-    for(auto &tsr : timeslotRules) {
-
-        Date nextDate = firstDay;
-        size_t nextPosition = offset;
-
-        while(nextDate <= lastDay) {
-            calendar_ptr->appendTimeslot(tsr, nextDate);
-            nextPosition += tsr_size;
-            nextDate += boost::gregorian::date_duration(1);
-        }
-
-        offset++;
-
- */   }
-
+    for(auto rule : timeslotRules) {
+        std::cout << "New Rule: " << std::endl;
+        std::cout << "Weekday: " << rule.getWeekday() << std::endl;
+        std::cout << "Start Time: " << rule.getStartTime() << std::endl;
+        std::cout << "Duration: " << rule.getDuration() << std::endl;
+        std::cout << std::endl;
+    }
 }
