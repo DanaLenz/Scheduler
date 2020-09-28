@@ -33,7 +33,7 @@ void Calendar::createTimeslot(const Date &date, const TimePeriod &startTime, con
         return;
     }
 
-    for(std::vector<Timeslot>::const_iterator it = timeslots.begin(); it != timeslots.end(); ++it) {
+    for(auto it = timeslots.begin(); it != timeslots.end(); ++it) {
         if(it->getDate() >= date)
             if(it->getStartTime() >= startTime){
                 if(startTime < (it->getStartTime() + it->getDuration())

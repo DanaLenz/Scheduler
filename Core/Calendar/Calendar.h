@@ -5,7 +5,7 @@
 #ifndef SCHEDULER_CALENDAR_H
 #define SCHEDULER_CALENDAR_H
 
-#include "Definitions.h"
+#include "../Definitions.h"
 #include "Timeslot.h"
 #include "TimeslotRule.h"
 #include <vector>
@@ -25,12 +25,12 @@ public:
     void clear();
 
     // adds exactly one new timeslot at the end of the calendar,
-    // as speficied by the passed timeslot-rule
+    // as specified by the passed timeslot-rule
     // the standard way to add timeslots
     void appendTimeslot(const TimeslotRule &tsr, const Date &date);
 
     // manually creates and inserts a timeslot
-    // needs to search for the appropritate position
+    // needs to search for the appropriate position
     void createTimeslot(const Date &date, const TimePeriod &startTime, const TimePeriod &duration);
 
     // TODO: In Calendar: delete function taking an iterator

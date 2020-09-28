@@ -5,7 +5,7 @@
 #ifndef SCHEDULER_TIMESLOTRULE_H
 #define SCHEDULER_TIMESLOTRULE_H
 
-#include "Definitions.h"
+#include "../Definitions.h"
 #include "Timeslot.h"
 #include <vector>
 
@@ -16,12 +16,12 @@ public:
     TimeslotRule(const Weekday &weekday, const TimePeriod &startTime, const TimePeriod &duration);
 
     //For Scheduler:
-    Timeslot createTimeslot(const Date& date) const;
+    [[nodiscard]] Timeslot createTimeslot(const Date& date) const;
 
     //For the Interface:
-    const TimePeriod &getStartTime() const;
-    const TimePeriod &getDuration() const;
-    const Weekday getWeekday() const;
+    [[nodiscard]] const TimePeriod &getStartTime() const;
+    [[nodiscard]] const TimePeriod &getDuration() const;
+    [[nodiscard]] const Weekday getWeekday() const;
 
 private:
 

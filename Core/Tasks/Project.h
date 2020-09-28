@@ -10,8 +10,7 @@
 #include <iterator>
 #include <vector>
 #include "Task.h"
-#include "../PriorityQueue.h"
-
+#include "../Definitions.h"
 
 class Project {
     friend class TaskManager;
@@ -21,21 +20,27 @@ public:
     //TODO: Project constructors
     explicit Project(std::string name);
 
-    float getMinimumWeeklyHours() const;
+    [[nodiscard]] float getMinimumWeeklyHours() const;
     void setMinimumWeeklyHours(float minimumWeeklyHours);
-    float getMaximumWeeklyHours() const;
+
+    [[nodiscard]] float getMaximumWeeklyHours() const;
     void setMaximumWeeklyHours(float maximumWeeklyHours);
-    const std::string &getName() const;
 
-    bool isTaskAssigned(ID taskID);
-
+    [[nodiscard]] const std::string &getName() const;
     void setName(const std::string &name);
+
+    [[nodiscard]]  bool isTaskAssigned(ID taskID);
+
+    Priority getPriority() const;
+
+    void setPriority(Priority priority);
+
 
 private:
 
     std::string name;
-    //TODO: implement projectQueue
-    PriorityQueue projectQueue;
+    //Priority priority;
+    //Date deadline;
     //TODO: project maximum and minimum weekly hours
     float minimumWeeklyHours;
     float maximumWeeklyHours;

@@ -12,7 +12,6 @@
 class consoleUI {
 
 public:
-    static void printTasks(TaskManager* taskManager);
 
 };
 

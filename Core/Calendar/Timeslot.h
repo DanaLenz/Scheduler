@@ -7,7 +7,7 @@
 
 #include "../Tasks/Task.h"
 #include "Tag.h"
-#include "Definitions.h"
+#include "../Definitions.h"
 
 class Timeslot {
 
@@ -17,16 +17,16 @@ public:
 
     void assign(Task &task);
 
-    bool isAssigned() const;
+    [[nodiscard]] bool isAssigned() const;
     void unassign();
 
-    const TimePeriod &getStartTime() const;
+    [[nodiscard]] const TimePeriod &getStartTime() const;
     void setStartTime(const TimePeriod &startTime);
 
-    const TimePeriod &getDuration() const;
+    [[nodiscard]] const TimePeriod &getDuration() const;
     void setDuration(const TimePeriod &duration);
 
-    const Date &getDate() const;
+    [[nodiscard]] const Date &getDate() const;
     void setDate(const Date &date);
 
 private:

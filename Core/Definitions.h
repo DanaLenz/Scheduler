@@ -10,6 +10,8 @@
 
 //TODO: put definitions back into a namespace
 
+    using Priority = int;
+
     using Date = boost::gregorian::date;
     using DatePeriod = boost::gregorian::date_period;
 

@@ -8,7 +8,7 @@
 
 #include <memory>
 #include <deque>
-#include <unordered_map>
+#include <map>
 #include <set>
 #include "Project.h"
 #include "Task.h"
@@ -24,48 +24,45 @@
  * 2. Each Task and it's assigned Project hold a unique pointer to each other
  * 3. All tasks and projects are saved in the respective container here
  * 4. Tasks and Projects are deleted properly
+ * 5. The Priority Manager is kept consistent
  */
 
 class TaskManager {
 
     //TODO: friend this class with task and project and make their functions private?
-    //TODO: figure out whether to use smart pointers in Task and Project
+    //TODO: The TaskManager class is very hacked together. I don't like it. Do it again.
 
-    //TODO: assign task manager at task and project creation
-
-    //TODO: TaskManager should be a singleton
 public:
+
+    TaskManager();
 
     static TaskManager * getTaskManager();
 
-    ID createTask(std::string name);
-    ID createTask(std::string name, ID project);
+    ID createTask(const std::string& name);
+    ID createTask(const std::string& name, ID project);
 
-    const ID getAssignedProject(const ID taskID) const;
-
-    ID createProject(std::string name);
+    ID createProject(const std::string& name);
 
     void deleteTask(ID task);
     void deleteProject(ID project);
 
     void transferTask(ID task, ID newProject);
-
-    void removeTask(ID task);
     void unassignTask(ID task);
 
-    void testPrint() const;
+    void testPrintTasks() const;
 
-    Project& getProject(const ID& id);
-    Task& getTask(const ID& id);
-    Project& associatedProject(const ID& task);
-    std::vector<Task *> associatedTasks(const ID& project);
+    [[nodiscard]] Project& getProject(const ID& id);
+    [[nodiscard]] Task& getTask(const ID& id);
+    [[nodiscard]] Project& associatedProject(const ID& task);
+    [[nodiscard]] std::vector<ID> getAssociatedTasks(const ID& project) const;
+    [[nodiscard]] ID getAssignedProject(const ID taskID) const;
 
     //TODO: save project and task data
 
 private:
-    static TaskManager * globalTaskManager;
-    ID NOJECT; //TODO: re-implement NOJECT
-    TaskManager();
+
+    //static TaskManager * globalTaskManager;
+    ID NOJECT;
 
     void assignProject(ID task, ID project);
 
@@ -75,9 +72,11 @@ private:
     IDGenerator idGeneratorTasks;
     IDGenerator idGeneratorProjects;
 
-    std::unordered_map<ID, Task> allTasks;
-    std::unordered_map<ID, Project> allProjects;
+    std::map<ID, std::unique_ptr<Task>> allTasks;
+    std::map<ID, std::unique_ptr<Project>> allProjects;
 
+    std::map<ID, std::vector<ID>> tasksOfProject;
+    std::map<ID, ID> projectOfTask;
 };
 
 

@@ -8,7 +8,7 @@
 #include <set>
 #include <vector>
 #include "Timeslot.h"
-#include "Definitions.h"
+#include "../Definitions.h"
 #include "TimeslotRule.h"
 #include "Calendar.h"
 

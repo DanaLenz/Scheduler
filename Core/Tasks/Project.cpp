@@ -25,7 +25,7 @@ void Project::setMaximumWeeklyHours(float maximumWeeklyHours) {
     Project::maximumWeeklyHours = maximumWeeklyHours;
 }
 
-Project::Project(std::string name) : name(name), minimumWeeklyHours(0), maximumWeeklyHours(0)
+Project::Project(std::string name) : name(std::move(name)), minimumWeeklyHours(0), maximumWeeklyHours(0)
 {}
 
 const std::string &Project::getName() const {
@@ -43,3 +43,13 @@ bool operator==(const Project& lhs, const Project& rhs) {
 bool Project::isTaskAssigned(ID taskID) {
     return std::find(assignedTasks.begin(), assignedTasks.end(), taskID) != assignedTasks.end();
 }
+
+/*
+Priority Project::getPriority() const {
+    return priority;
+}
+
+void Project::setPriority(Priority priority) {
+    Project::priority = priority;
+}
+*/
