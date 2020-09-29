@@ -5,24 +5,40 @@
 #ifndef SCHEDULER_TIMESLOT_H
 #define SCHEDULER_TIMESLOT_H
 
-//#include "boost/date_time/gregorian/gregorian.hpp"
-//#include "boost/date_time/posix_time/posix_time.hpp"
 #include "../Tasks/Task.h"
-#include "Tag.h"
+#include "../Definitions.h"
 
 class Timeslot {
-    //TODO: read boost datetime documentation
 
 public:
-    //TODO: multiple tasks per slot
-    Timeslot* assignTimeslot(const Task& task);
-    bool isAssigned();
+
+    Timeslot(const Date &date, const TimePeriod &startTime, const TimePeriod &duration);
+
+    void assign(Task &task);
+
+    [[nodiscard]] bool isAssigned() const;
+    void unassign();
+
+    [[nodiscard]] const TimePeriod &getStartTime() const;
+    void setStartTime(const TimePeriod &startTime);
+
+    [[nodiscard]] const TimePeriod &getDuration() const;
+    void setDuration(const TimePeriod &duration);
+
+    [[nodiscard]] const Date &getDate() const;
+    void setDate(const Date &date);
 
 private:
-    //boost::posix_time::time_duration length;
-    //boost::posix_time::time_duration buffer = 0;
-    std::unordered_set<Tag> tags;
+
+    Date date;
+
+    TimePeriod startTime;
+    TimePeriod duration;
+
+    //std::vector<Tag> tags;
+    Task* assignedTask = nullptr;
 };
 
+bool operator<(const Timeslot& lhs, const Timeslot& rhs);
 
 #endif //SCHEDULER_TIMESLOT_H

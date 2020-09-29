@@ -10,9 +10,13 @@ ID IDGenerator::getID() {
     if(!idPool.empty()) {
         id = idPool.back();
         idPool.pop_back();
-    }
-
-    id = nextID++;
+    } else
+        id = nextID++;
+    
     lastID = id;
     return id;
+}
+
+void IDGenerator::releaseID(ID id) {
+    idPool.push_back(id);
 }

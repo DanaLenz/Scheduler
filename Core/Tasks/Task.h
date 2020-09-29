@@ -11,25 +11,36 @@
 //#include "boost/date_time/gregorian/gregorian.hpp"
 #include <string>
 #include "IDGenerator.h"
+#include "../Definitions.h"
 
-class Project;
 
 class Task {
 
     friend class TaskManager;
+
 public:
 
-    Task(std::string name);
+    explicit Task(std::string name);
 
-    bool isProjectDependant() const;
-    bool isOptional() const;
+    [[nodiscard]] bool isProjectDependant() const;
     void setProjectDependant(bool val);
+
+    [[nodiscard]] bool isOptional() const;
     void setOptional(bool val);
-    const std::string &getName() const;
+
+    [[nodiscard]] const std::string &getName() const;
     void setName(const std::string &name);
-    float getNeededTime() const;
+
+    [[nodiscard]] float getNeededTime() const;
     void setNeededTime(float neededTime);
 
+    [[nodiscard]] Priority getPriority() const;
+
+    void setPriority(Priority priority);
+
+    [[nodiscard]] const Date &getDeadline() const;
+
+    void setDeadline(const Date &deadline);
 
 private:
 
@@ -38,13 +49,12 @@ private:
     bool projectDependant;
     bool optional;
 
-    ID id;
+    Priority priority;
+    Date deadline;
 
-    ID assignedProject;
-    //TODO: task recurrence
-    //TODO: task deadlines
+    //ID id;
 };
 
-bool operator==(const Task& lhs, const Task& rhs);
+//bool operator==(const Task& lhs, const Task& rhs);
 
 #endif //SCHEDULER_TASK_H

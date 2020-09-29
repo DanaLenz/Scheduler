@@ -13,11 +13,13 @@ class IDGenerator {
 
 public:
     ID getID();
+    IDGenerator() = default;
+    void releaseID(ID);
 
 private:
-    std::deque<ID> idPool;
-    ID nextID;
-    ID lastID;
+    std::deque<ID> idPool = {};
+    ID nextID = 0;
+    ID lastID = 0;
 };
 
 

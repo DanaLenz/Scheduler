@@ -7,9 +7,9 @@
 Task::Task(std::string name)
         : name(std::move(name)), neededTime(0), projectDependant(false), optional(false) {}
 
-bool operator==(const Task& lhs, const Task& rhs) {
-    return std::addressof(lhs) == std::addressof(rhs);
-}
+//bool operator==(const Task& lhs, const Task& rhs) {
+//    return std::addressof(lhs) == std::addressof(rhs);
+//}
 
 //warning: you are entering the dull, barren wasteland of setters and getters
 
@@ -21,3 +21,37 @@ const std::string &Task::getName() const { return name; }
 void Task::setName(const std::string &name) { Task::name = name; }
 float Task::getNeededTime() const { return neededTime; }
 void Task::setNeededTime(float neededTime) { Task::neededTime = neededTime; }
+
+Priority Task::getPriority() const {
+    return priority;
+}
+
+void Task::setPriority(Priority priority) {
+    Task::priority = priority;
+}
+
+const Date &Task::getDeadline() const {
+    return deadline;
+}
+
+void Task::setDeadline(const Date &deadline) {
+    Task::deadline = deadline;
+}
+
+/*
+Priority Task::getPriority() const {
+    return priority;
+}
+
+void Task::setPriority(Priority priority) {
+    Task::priority = priority;
+}
+
+const Date &Task::getDeadline() const {
+    return deadline;
+}
+
+void Task::setDeadline(const Date &deadline) {
+    Task::deadline = deadline;
+}
+*/
