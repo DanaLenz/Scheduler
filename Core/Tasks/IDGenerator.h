@@ -13,7 +13,7 @@ class IDGenerator {
 
 public:
     ID getID();
-    IDGenerator();
+    IDGenerator() = default;
     void releaseID(ID);
 
 private:

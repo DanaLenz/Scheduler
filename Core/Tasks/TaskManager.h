@@ -36,7 +36,7 @@ public:
 
     TaskManager();
 
-    static TaskManager * getTaskManager();
+    //static TaskManager * getTaskManager();
 
     ID createTask(const std::string& name);
     ID createTask(const std::string& name, ID project);
@@ -57,6 +57,9 @@ public:
     [[nodiscard]] std::vector<ID> getAssociatedTasks(const ID& project) const;
     [[nodiscard]] ID getAssignedProject(const ID taskID) const;
 
+
+    [[nodiscard]] bool validateTaskID(const ID id) const;
+    [[nodiscard]] bool validateProjectID(const ID id) const;
     //TODO: save project and task data
 
 private:
@@ -65,9 +68,6 @@ private:
     ID NOJECT;
 
     void assignProject(ID task, ID project);
-
-    bool validateTaskID(ID id);
-    bool validateProjectID(ID id);
 
     IDGenerator idGeneratorTasks;
     IDGenerator idGeneratorProjects;

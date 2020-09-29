@@ -19,7 +19,7 @@ if(Boost_FOUND)
             Core/Calendar/TimeslotRule.cpp Core/Calendar/TimeslotRule.h
             Core/Definitions.h
             Core/Calendar/Calendar.cpp Core/Calendar/Calendar.h
-            )
+            Core/Tag.cpp Core/Tag.h)
 
 #    target_link_libraries(progname Boost::filesystem)
 else()

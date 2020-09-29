@@ -22,6 +22,22 @@ void Task::setName(const std::string &name) { Task::name = name; }
 float Task::getNeededTime() const { return neededTime; }
 void Task::setNeededTime(float neededTime) { Task::neededTime = neededTime; }
 
+Priority Task::getPriority() const {
+    return priority;
+}
+
+void Task::setPriority(Priority priority) {
+    Task::priority = priority;
+}
+
+const Date &Task::getDeadline() const {
+    return deadline;
+}
+
+void Task::setDeadline(const Date &deadline) {
+    Task::deadline = deadline;
+}
+
 /*
 Priority Task::getPriority() const {
     return priority;

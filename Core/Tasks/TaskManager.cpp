@@ -133,5 +133,17 @@ void TaskManager::testPrintTasks() const {
     std::cout << std::endl;
 }
 
+bool TaskManager::validateTaskID(const ID id) const {
+
+    //return ( allTasks.find(id) != allTasks.end() );
+    return allTasks.count(id);
+}
+
+bool TaskManager::validateProjectID(const ID id) const {
+
+    //return ( allProjects.find(id) != allProjects.end() );
+    return allProjects.count(id);
+}
+
 
 

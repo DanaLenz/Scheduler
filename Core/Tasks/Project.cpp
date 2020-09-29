@@ -36,13 +36,29 @@ void Project::setName(const std::string &name) {
     Project::name = name;
 }
 
+Priority Project::getPriority() const {
+    return priority;
+}
+
+void Project::setPriority(Priority priority) {
+    Project::priority = priority;
+}
+
+const Date &Project::getDeadline() const {
+    return deadline;
+}
+
+void Project::setDeadline(const Date &deadline) {
+    Project::deadline = deadline;
+}
+
 bool operator==(const Project& lhs, const Project& rhs) {
     return std::addressof(lhs) == std::addressof(rhs);
 }
 
-bool Project::isTaskAssigned(ID taskID) {
-    return std::find(assignedTasks.begin(), assignedTasks.end(), taskID) != assignedTasks.end();
-}
+//bool Project::isTaskAssigned(ID taskID) {
+//    return std::find(assignedTasks.begin(), assignedTasks.end(), taskID) != assignedTasks.end();
+//}
 
 /*
 Priority Project::getPriority() const {

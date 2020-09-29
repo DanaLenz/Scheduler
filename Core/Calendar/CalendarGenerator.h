@@ -16,7 +16,7 @@ class CalendarGenerator {
 
 public:
 
-    Calendar generateCalendar(const Date &startDate, const Date &endDate) const;
+    [[nodiscard]] Calendar generateCalendar(const Date &startDate, const Date &endDate) const;
     void createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes, const long duration);
     void deleteTimeslotRule(TimeslotRule& timeslotRule);
     void printRules() const;

@@ -1,7 +1,5 @@
 #include <iostream>
-#include "Core/Tasks/Project.h"
 #include "Core/Tasks/TaskManager.h"
-#include "UI/consoleUI.h"
 #include "Core/Calendar/CalendarGenerator.h"
 
 #include "boost/date_time/gregorian/gregorian.hpp"

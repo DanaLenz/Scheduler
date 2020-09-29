@@ -6,7 +6,6 @@
 #define SCHEDULER_TIMESLOT_H
 
 #include "../Tasks/Task.h"
-#include "Tag.h"
 #include "../Definitions.h"
 
 class Timeslot {

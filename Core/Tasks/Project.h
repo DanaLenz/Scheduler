@@ -29,26 +29,29 @@ public:
     [[nodiscard]] const std::string &getName() const;
     void setName(const std::string &name);
 
-    [[nodiscard]]  bool isTaskAssigned(ID taskID);
+    //[[nodiscard]]  bool isTaskAssigned(ID taskID);
 
-    Priority getPriority() const;
+    [[nodiscard]] Priority getPriority() const;
 
     void setPriority(Priority priority);
 
+    [[nodiscard]] const Date &getDeadline() const;
+
+    void setDeadline(const Date &deadline);
 
 private:
 
     std::string name;
-    //Priority priority;
-    //Date deadline;
+    Priority priority;
+    Date deadline;
     //TODO: project maximum and minimum weekly hours
     float minimumWeeklyHours;
     float maximumWeeklyHours;
     //TODO: Project Tags
 
-    ID id;
+    //ID id;
 
-    std::vector<ID> assignedTasks;
+    //std::vector<ID> assignedTasks;
 
 };
 

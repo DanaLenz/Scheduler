@@ -34,11 +34,11 @@ public:
     [[nodiscard]] float getNeededTime() const;
     void setNeededTime(float neededTime);
 
-    Priority getPriority() const;
+    [[nodiscard]] Priority getPriority() const;
 
     void setPriority(Priority priority);
 
-    const Date &getDeadline() const;
+    [[nodiscard]] const Date &getDeadline() const;
 
     void setDeadline(const Date &deadline);
 
@@ -49,10 +49,10 @@ private:
     bool projectDependant;
     bool optional;
 
-    //Priority priority;
-    //Date deadline;
+    Priority priority;
+    Date deadline;
 
-    ID id;
+    //ID id;
 };
 
 //bool operator==(const Task& lhs, const Task& rhs);

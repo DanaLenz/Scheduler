@@ -21,7 +21,7 @@ void CalendarGenerator::deleteTimeslotRule(TimeslotRule &timeslotRule) {
 //TODO: In CalendarGenerator: Is there a more organic way to iterate over a date period?
 Calendar CalendarGenerator::generateCalendar(const Date &firstDay, const Date &lastDay) const {
 
-    Calendar* calendar = new Calendar{firstDay, lastDay};
+    auto calendar = new Calendar{firstDay, lastDay};
 
     if (timeslotRules.empty()) return *calendar;
 
@@ -35,7 +35,7 @@ Calendar CalendarGenerator::generateCalendar(const Date &firstDay, const Date &l
 
 void CalendarGenerator::printRules() const {
 
-    for(auto rule : timeslotRules) {
+    for(const auto &rule : timeslotRules) {
         std::cout << "New Rule: " << std::endl;
         std::cout << "Weekday: " << rule.getWeekday() << std::endl;
         std::cout << "Start Time: " << rule.getStartTime() << std::endl;
