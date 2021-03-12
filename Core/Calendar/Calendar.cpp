@@ -5,7 +5,7 @@
 #include "Calendar.h"
 #include <algorithm>
 
-Calendar::Calendar(const Date &firstDay, const Date &lastDay) : startDate{firstDay}, endDate{lastDay} {
+Calendar::Calendar(const TimeDefs::Date &firstDay, const TimeDefs::Date &lastDay) : startDate{firstDay}, endDate{lastDay} {
 
     assert(startDate <= endDate &&
             "First date of a calendar is past it's last date.");
@@ -23,7 +23,7 @@ void Calendar::clear() {
 
 }
 
-void Calendar::createTimeslot(const Date &date, const TimePeriod &startTime, const TimePeriod &duration) {
+void Calendar::createTimeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration) {
 
     //TODO: check overlap
     //TODO: is there a std function doing this?
@@ -55,7 +55,7 @@ void Calendar::deleteTimeslot(std::vector<Timeslot>::iterator it) {
     timeslots.erase(it);
 }
 
-void Calendar::appendTimeslot(const TimeslotRule &tsr, const Date &date) {
+void Calendar::appendTimeslot(const TimeslotRule &tsr, const TimeDefs::Date &date) {
     timeslots.push_back(std::move(tsr.createTimeslot(date)));
 }
 

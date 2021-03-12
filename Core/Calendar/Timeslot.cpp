@@ -4,20 +4,20 @@
 
 #include "Timeslot.h"
 
-const TimePeriod &Timeslot::getStartTime() const {
+const TimeDefs::TimePeriod &Timeslot::getStartTime() const {
     return startTime;
 }
 
-void Timeslot::setStartTime(const TimePeriod &startTime) {
+void Timeslot::setStartTime(const TimeDefs::TimePeriod &startTime) {
     Timeslot::startTime = startTime;
 }
 
-const TimePeriod &Timeslot::getDuration() const {
+const TimeDefs::TimePeriod &Timeslot::getDuration() const {
     return duration;
 }
 
 //TODO: changing time information in Timeslots might change their positions in a CalendarGenerator
-void Timeslot::setDuration(const TimePeriod &duration) {
+void Timeslot::setDuration(const TimeDefs::TimePeriod &duration) {
     Timeslot::duration = duration;
 }
 
@@ -33,14 +33,13 @@ void Timeslot::unassign() {
     assignedTask = nullptr;
 }
 
-Timeslot::Timeslot(const Date &date, const TimePeriod &startTime, const TimePeriod &duration)
-: date{date}, startTime{startTime}, duration{duration} {}
+Timeslot::Timeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration) : date{date}, startTime{startTime}, duration{duration} {}
 
-const Date &Timeslot::getDate() const {
+const TimeDefs::Date &Timeslot::getDate() const {
     return date;
 }
 
-void Timeslot::setDate(const Date &date) {
+void Timeslot::setDate(const TimeDefs::Date &date) {
     Timeslot::date = date;
 }
 
