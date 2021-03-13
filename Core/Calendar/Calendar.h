@@ -41,13 +41,15 @@ public:
 
 
     /**
+     * Currently unused!
      * Appends a timeslot at the end of the internal vector,
      * currently subject to redesign
      */
-    void appendTimeslot(const TimeslotRule &tsr, const TimeDefs::Date &date);
+    //void appendTimeslot(const TimeslotRule &tsr, const TimeDefs::Date &date);
 
 
     /**
+     * Currently unused!
      * Creates a timeslot and stores it at the appropriate spot in
      * the internal sorted collection.
      * Needs to perform a search, so this should only be used
@@ -57,8 +59,8 @@ public:
      * @param duration Duration of the time slot
      * (not yet implemented: ensuring no overlapping timeslots can be added)
      */
-    void createTimeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime,
-            const TimeDefs::TimePeriod &duration);
+    //void createTimeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime,
+    //        const TimeDefs::TimePeriod &duration);
 
     /**
      * Delete an individual time slot from a calendar

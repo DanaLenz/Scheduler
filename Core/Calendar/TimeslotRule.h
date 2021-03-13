@@ -19,22 +19,10 @@ public:
     /**
      * Time slot rules contain the information needed to generate a timeslot each week.
      * Needs to be initialized with a weekday, start time and duration.
+     * A timeslot needs to be contained inside a single day.
      */
     TimeslotRule(const TimeDefs::Weekday &weekday, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration);
 
-    //TODO: what if date does not match rule?
-    /**
-     * This function is for calling by internal component (CalendarGenerator), for
-     * manually creating time slots a Timeslot object can be created directly.
-     * Returns a new timeslot for the given date according to the rule.
-     * If no
-     * @param date
-     * @return
-     */
-    [[nodiscard]] Timeslot createTimeslot(const TimeDefs::Date& date) const;
-
-    //For the Interface:
-    //TODO: should Timeslot rules be mutable?
     /**
      * @return Start time of the time slot rule
      */

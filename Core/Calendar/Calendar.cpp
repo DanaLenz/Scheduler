@@ -18,46 +18,14 @@ Calendar::Calendar(const TimeDefs::Date &firstDay, const TimeDefs::Date &lastDay
 }
 
 void Calendar::clear() {
-
     timeslots.clear();
-
 }
 
-void Calendar::createTimeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration) {
-
-    //TODO: check overlap
-    //TODO: is there a std function doing this?
-
-    if(date < startDate || date > endDate) {
-        //TODO: Error: outside of calendar range
-        return;
-    }
-
-    for(auto it = timeslots.begin(); it != timeslots.end(); ++it) {
-        if(it->getDate() >= date)
-            if(it->getStartTime() >= startTime){
-                if(startTime < (it->getStartTime() + it->getDuration())
-                    || (it + 1)->getStartTime() < (startTime + duration))
-                {
-                    //TODO: Error, timeslot overlap
-                    return;
-                }
-                timeslots.insert(++it, Timeslot{date, startTime, duration});
-                return;
-            }
-    }
-
-    timeslots.emplace_back(date, startTime, duration);
-
-}
 
 void Calendar::deleteTimeslot(std::vector<Timeslot>::iterator it) {
     timeslots.erase(it);
 }
 
-void Calendar::appendTimeslot(const TimeslotRule &tsr, const TimeDefs::Date &date) {
-    timeslots.push_back(std::move(tsr.createTimeslot(date)));
-}
 
 void Calendar::printInfo() const {
 
@@ -87,3 +55,39 @@ void Calendar::printTimeslots() const {
     std::cout << std::endl;
 
 }
+
+/*
+void Calendar::appendTimeslot(const TimeslotRule &tsr, const TimeDefs::Date &date) {
+    timeslots.push_back(std::move(tsr.createTimeslot(date)));
+}
+ */
+
+/*
+void Calendar::createTimeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration) {
+
+    //TODO: check overlap
+    //TODO: is there a std function doing this?
+
+    if(date < startDate || date > endDate) {
+        //TODO: Error: outside of calendar range
+        return;
+    }
+
+    for(auto it = timeslots.begin(); it != timeslots.end(); ++it) {
+        if(it->getDate() >= date)
+            if(it->getStartTime() >= startTime){
+                if(startTime < (it->getStartTime() + it->getDuration())
+                    || (it + 1)->getStartTime() < (startTime + duration))
+                {
+                    //TODO: Error, timeslot overlap
+                    return;
+                }
+                timeslots.insert(++it, Timeslot{date, startTime, duration});
+                return;
+            }
+    }
+
+    timeslots.emplace_back(date, startTime, duration);
+
+}
+*/

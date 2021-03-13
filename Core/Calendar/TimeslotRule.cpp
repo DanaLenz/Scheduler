@@ -5,10 +5,6 @@
 #include "TimeslotRule.h"
 
 
-Timeslot TimeslotRule::createTimeslot(const TimeDefs::Date &date) const {
-    return Timeslot{date, startTime, duration};
-}
-
 TimeslotRule::TimeslotRule(const TimeDefs::Weekday &weekday, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration)
         : weekday{weekday}, startTime{startTime}, duration{duration}  {}
 

@@ -5,7 +5,6 @@
 #ifndef SCHEDULER_TIMESLOT_H
 #define SCHEDULER_TIMESLOT_H
 
-#include "../Tasks/Task.h"
 #include "../Definitions.h"
 
 /**
@@ -25,46 +24,20 @@ public:
     Timeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration);
 
     /**
-     * @param task Task to be assigned
-     */
-    void assign(Task &task);
-
-    /**
-     * @return True iff a task is assigned to this time slot
-     */
-    [[nodiscard]] bool isAssigned() const;
-    /**
-     * Removes assigned task.
-     * (This does not change anything in the task.)
-     */
-    void unassign();
-
-    /**
      * @return Starting time of the time slot
      */
     [[nodiscard]] const TimeDefs::TimePeriod &getStartTime() const;
-    /**
-     * @param startTime Starting time of the time slot
-     */
-    void setStartTime(const TimeDefs::TimePeriod &startTime);
 
     /**
      * @return Duration of the time slot
      */
     [[nodiscard]] const TimeDefs::TimePeriod &getDuration() const;
-    /**
-     * @param duration Duration of the time slot
-     */
-    void setDuration(const TimeDefs::TimePeriod &duration);
 
     /**
      * @return (Starting) Date of the time slot
      */
     [[nodiscard]] const TimeDefs::Date &getDate() const;
-    /**
-     * @param date (Starting) Date of the time slot
-     */
-    void setDate(const TimeDefs::Date &date);
+
 
 private:
 
@@ -74,7 +47,6 @@ private:
     TimeDefs::TimePeriod duration;
 
     //std::vector<Tag> tags;
-    Task* assignedTask = nullptr;
 };
 
 bool operator<(const Timeslot& lhs, const Timeslot& rhs);
