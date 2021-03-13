@@ -7,8 +7,7 @@
 int main() {
 
 
-    //TODO: include asserts/error throwing
-    //TODO: the way of creating and accessing tasks needs to be different
+
     TaskManager tm;
 
     auto ducks = tm.createProject("Ducks");

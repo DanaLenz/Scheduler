@@ -5,38 +5,48 @@
 #ifndef SCHEDULER_TIMESLOT_H
 #define SCHEDULER_TIMESLOT_H
 
-#include "../Tasks/Task.h"
 #include "../Definitions.h"
 
+/**
+ * In general, a timeslot is a single instance of a timeslot-
+ * rule, defining a single, concrete period of time that can be assigned a task.
+ */
 class Timeslot {
 
 public:
 
-    Timeslot(const Date &date, const TimePeriod &startTime, const TimePeriod &duration);
+    /**
+     * A date, start time and duration are required to define a time slot.
+     * @param date Date the time slot starts (and usually ends) on
+     * @param startTime Time the time slot starts on
+     * @param duration Duration of the time slot
+     */
+    Timeslot(const TimeDefs::Date &date, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration);
 
-    void assign(Task &task);
+    /**
+     * @return Starting time of the time slot
+     */
+    [[nodiscard]] const TimeDefs::TimePeriod &getStartTime() const;
 
-    [[nodiscard]] bool isAssigned() const;
-    void unassign();
+    /**
+     * @return Duration of the time slot
+     */
+    [[nodiscard]] const TimeDefs::TimePeriod &getDuration() const;
 
-    [[nodiscard]] const TimePeriod &getStartTime() const;
-    void setStartTime(const TimePeriod &startTime);
+    /**
+     * @return (Starting) Date of the time slot
+     */
+    [[nodiscard]] const TimeDefs::Date &getDate() const;
 
-    [[nodiscard]] const TimePeriod &getDuration() const;
-    void setDuration(const TimePeriod &duration);
-
-    [[nodiscard]] const Date &getDate() const;
-    void setDate(const Date &date);
 
 private:
 
-    Date date;
+    TimeDefs::Date date;
 
-    TimePeriod startTime;
-    TimePeriod duration;
+    TimeDefs::TimePeriod startTime;
+    TimeDefs::TimePeriod duration;
 
     //std::vector<Tag> tags;
-    Task* assignedTask = nullptr;
 };
 
 bool operator<(const Timeslot& lhs, const Timeslot& rhs);

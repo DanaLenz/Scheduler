@@ -9,25 +9,38 @@
 #include "Timeslot.h"
 #include <vector>
 
+/**
+ * Contains the rule to generate one timeslot per week.
+ */
 class TimeslotRule {
 
 public:
 
-    TimeslotRule(const Weekday &weekday, const TimePeriod &startTime, const TimePeriod &duration);
+    /**
+     * Time slot rules contain the information needed to generate a timeslot each week.
+     * Needs to be initialized with a weekday, start time and duration.
+     * A timeslot needs to be contained inside a single day.
+     */
+    TimeslotRule(const TimeDefs::Weekday &weekday, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration);
 
-    //For Scheduler:
-    [[nodiscard]] Timeslot createTimeslot(const Date& date) const;
-
-    //For the Interface:
-    [[nodiscard]] const TimePeriod &getStartTime() const;
-    [[nodiscard]] const TimePeriod &getDuration() const;
-    [[nodiscard]] const Weekday getWeekday() const;
+    /**
+     * @return Start time of the time slot rule
+     */
+    [[nodiscard]] const TimeDefs::TimePeriod &getStartTime() const;
+    /**
+     * @return Duration of the time slot rule
+     */
+    [[nodiscard]] const TimeDefs::TimePeriod &getDuration() const;
+    /**
+     * @return Weekday of the time slot rule
+     */
+    [[nodiscard]] const TimeDefs::Weekday getWeekday() const;
 
 private:
 
-    TimePeriod startTime;
-    TimePeriod duration;
-    Weekday weekday;
+    TimeDefs::TimePeriod startTime;
+    TimeDefs::TimePeriod duration;
+    TimeDefs::Weekday weekday;
 
 //    std::vector<Tag> tags;
 

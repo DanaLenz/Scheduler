@@ -12,11 +12,11 @@ ID IDGenerator::getID() {
         idPool.pop_back();
     } else
         id = nextID++;
-    
-    lastID = id;
+
     return id;
 }
 
 void IDGenerator::releaseID(ID id) {
     idPool.push_back(id);
 }
+

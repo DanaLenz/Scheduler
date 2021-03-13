@@ -8,7 +8,6 @@
 
 class Tag {
 
-    //TODO: Tags
 
 };
 

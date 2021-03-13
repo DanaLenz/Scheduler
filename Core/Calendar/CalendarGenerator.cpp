@@ -2,14 +2,66 @@
 // Created by Dana on 15.03.2020.
 //
 
+
 #include "CalendarGenerator.h"
 
 void CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes,
                                            const long duration) {
-    Weekday boost_weekday {weekday_num};
-    TimePeriod boost_startTime {start_hour, start_minutes, 0};
-    TimePeriod boost_duration {duration/60, duration%60, 0};
-    timeslotRules.emplace(boost_weekday, boost_startTime, boost_duration);
+
+    if(weekday_num < 1 || weekday_num > 7)
+        //TODO: Error: bad parameter
+        return;
+    if (start_hour < 0 || start_hour > 23)
+        //TODO: Error: bad parameter
+        return;
+    if(start_minutes < 0 || start_minutes > 59)
+        //TODO: Error: bad parameter
+        return;
+    if(duration < 0)
+        //TODO: Error: bad parameter
+        return;
+    if(start_hour*60 + start_minutes + duration >= 24*60)
+        //TODO: Error: timeslot going over midnight
+        return;
+
+
+    // Transform parameter types to internally used boost types
+    TimeDefs::Weekday boost_weekday {weekday_num};
+    TimeDefs::TimePeriod boost_startTime {start_hour, start_minutes, 0};
+    TimeDefs::TimePeriod boost_duration {duration/60, duration%60, 0};
+
+    auto emplace_return = timeslotRules.emplace(boost_weekday, boost_startTime, boost_duration);
+
+    // Check for errors and overlap
+    if(!emplace_return.second)
+        //TODO: Error: something has gone wrong when inserting
+        return;
+    else {
+
+        auto &position = emplace_return.first;
+
+        if(position != timeslotRules.begin()) {
+            auto previous = std::prev(position, 1);
+            if (boost_weekday == previous->getWeekday())
+                if (previous->getStartTime() + previous->getDuration() >= boost_startTime) {
+                    //TODO: Error: overlap
+                    timeslotRules.erase(position);
+                    return;
+                }
+        }
+
+        if(std::next(position) != timeslotRules.end()) {
+            auto next = std::next(position, 1);
+            if (boost_weekday == next->getWeekday())
+                if (boost_startTime + boost_duration >= next->getStartTime()) {
+                    //TODO: Error: overlap
+                    timeslotRules.erase(position);
+                    return;
+                }
+        }
+
+    }
+
 }
 
 
@@ -18,19 +70,38 @@ void CalendarGenerator::deleteTimeslotRule(TimeslotRule &timeslotRule) {
 }
 
 
-//TODO: In CalendarGenerator: Is there a more organic way to iterate over a date period?
-Calendar CalendarGenerator::generateCalendar(const Date &firstDay, const Date &lastDay) const {
+Calendar CalendarGenerator::generateCalendar(const TimeDefs::Date &firstDay, const TimeDefs::Date &lastDay) const {
 
     auto calendar = new Calendar{firstDay, lastDay};
 
     if (timeslotRules.empty()) return *calendar;
 
-    for(Date currDay = firstDay; currDay <= lastDay; currDay += boost::gregorian::date_duration(1))
-        for(auto &tsr : timeslotRules)
-            if(tsr.getWeekday() == currDay.day_of_week())
-                calendar->appendTimeslot(tsr, currDay);
+    auto &day = firstDay;
+    auto date_period = boost::gregorian::date_period(firstDay, lastDay);
 
-     return *calendar;
+    for(auto date = firstDay; date <= lastDay; date += boost::gregorian::date_duration(1)){
+
+        for(auto &tsr : timeslotRules)
+            if(tsr.getWeekday() == date.day_of_week())
+                calendar->timeslots.emplace_back(date, tsr.getStartTime(), tsr.getDuration());
+    }
+
+    return *calendar;
+
+    /*
+     * In principle, the position of each timeslot in the internal array
+     * can be calculated in the beginning.
+     * However, that does not match the way vectors are intended to be
+     * used and leads to unnecessarily messy code. Only
+     * modify if this turns out to be a performance bottleneck.
+     *
+     *   for(auto &currDay = startDay; currDay <= lastDay; currDay += boost::gregorian::date_duration(7)){
+     *      size_t number_added = 0;
+     *      timeslots[index+(amount_timeslots*number_added)] = Timeslot(currDay, tsr.getStartTime(), tsr.getDuration());
+     *      number_added++;
+     *   }
+     */
+
 }
 
 void CalendarGenerator::printRules() const {
