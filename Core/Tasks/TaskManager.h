@@ -12,6 +12,7 @@
 #include <set>
 #include "Project.h"
 #include "Task.h"
+#include "TaskRule.h"
 #include "IDGenerator.h"
 
 
@@ -143,6 +144,36 @@ public:
      */
     [[nodiscard]] bool validateProjectID(const ID id) const;
 
+    /**
+     * Create and store a task rule
+     * @param name The name for the task rule. Does not need to be unique and can be empty.
+     * @return ID of the created task rule
+     */
+    ID createTaskRule(std::string name);
+
+    /**
+     * Create and store a task rule
+     * @param name The name for the task rule. Does not need to be unique and can be empty.
+     * @param project ID of the projet that this task rule should be assigned to
+     * @return ID of the created task rule
+     */
+    ID createTaskRule (std::string name, ID project);
+
+    /**
+     * Removes the task rule, unassigns it from its project and frees its ID.
+     * @param id ID of the task rule to be deleted.
+     */
+    void deleteTaskRule(ID id);
+
+    /**
+     * Unimplemented!
+     * Should generate a file that contains an encoding for all saved tasks and
+     * tasks generated from task rules in the specified date range
+     * @param startDate First day tasks should be generated for
+     * @param endDate Last day tasks should be generated for
+     */
+    void generateEncodings(TimeDefs::Date startDate, TimeDefs::Date endDate) const;
+
 private:
 
     //static TaskManager * globalTaskManager;
@@ -154,10 +185,12 @@ private:
     IDGenerator idGeneratorProjects;
 
     std::map<ID, std::unique_ptr<Task>> allTasks;
+    std::map<ID, std::unique_ptr<TaskRule>> allTaskRules;
     std::map<ID, std::unique_ptr<Project>> allProjects;
 
     std::map<ID, std::vector<ID>> tasksOfProject;
     std::map<ID, ID> projectOfTask;
+
 };
 
 

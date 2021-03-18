@@ -24,7 +24,11 @@ int main() {
     tm.deleteTask(4);
     tm.deleteProject(1);
     tm.createTask("test", 0);
-    tm.createProject("Program");
+    auto program = tm.createProject("Program");
+
+    auto pond = tm.createTaskRule("clean roomba");
+    tm.transferTask(pond, roombas);
+    auto push = tm.createTaskRule("Push to github", program);
 
     tm.testPrintTasks();
 

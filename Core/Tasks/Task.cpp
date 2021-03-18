@@ -5,7 +5,7 @@
 #include "Task.h"
 
 Task::Task(std::string name)
-        : name(std::move(name)), neededTime(0), projectDependant(false), optional(false) {}
+        : name(std::move(name)), neededTime(0), projectDependant(false), optional(false), startDate(boost::gregorian::day_clock::local_day()) {}
 
 bool operator==(const Task &lhs, const Task &rhs) {
     return std::addressof(lhs) == std::addressof(rhs);
@@ -51,4 +51,12 @@ const TimeDefs::Date &Task::getDeadline() const {
 
 void Task::setDeadline(const TimeDefs::Date &deadline) {
     Task::deadline = deadline;
+}
+
+const TimeDefs::Date &Task::getStartDate() const {
+    return startDate;
+}
+
+void Task::setStartDate(const TimeDefs::Date &startDate) {
+    Task::startDate = startDate;
 }
