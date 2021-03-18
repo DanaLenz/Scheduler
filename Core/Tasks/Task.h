@@ -85,14 +85,31 @@ public:
      */
     void setDeadline(const TimeDefs::Date &deadline);
 
+    /**
+     * The start date is the earliest date a task can be scheduled at.
+     * @return The start date
+     */
+    const TimeDefs::Date &getStartDate() const;
 
-private:
+    /**
+     * The start date is the earliest date a task can be scheduled at.
+     * @param startDate The start date
+     */
+    void setStartDate(const TimeDefs::Date &startDate);
+
+
+protected:
 
     std::string name;
     float neededTime;
     bool projectDependant;
     bool optional;
+
+private:
     TimeDefs::Date deadline;
+    TimeDefs::Date startDate;
+
+
 };
 
 bool operator==(const Task& lhs, const Task& rhs);

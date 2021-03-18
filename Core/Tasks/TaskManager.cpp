@@ -35,6 +35,19 @@ ID TaskManager::createTask(const std::string& name) {
     return createTask(name, NOJECT);
 }
 
+ID TaskManager::createTaskRule(std::string name, ID project) {
+    ID id = idGeneratorTasks.getID();
+    allTaskRules[id] = std::move(std::make_unique<TaskRule> (name));
+
+    assignProject(id, project);
+
+    return id;
+}
+
+ID TaskManager::createTaskRule(std::string name) {
+    return createTaskRule(name, NOJECT);
+}
+
 ID TaskManager::createProject(const std::string& name) {
     ID id = idGeneratorProjects.getID();
 
@@ -102,6 +115,17 @@ void TaskManager::deleteTask(ID task) {
     idGeneratorTasks.releaseID(task);
 }
 
+void TaskManager::deleteTaskRule(ID id) {
+    ID oldProjectID = getAssignedProject(id);
+    allTaskRules.erase(id);
+
+    tasksOfProject[oldProjectID].erase(std::remove(tasksOfProject[oldProjectID].begin(),
+                                                   tasksOfProject[oldProjectID].end(), id));
+
+    projectOfTask.erase(id);
+    idGeneratorTasks.releaseID(id);
+}
+
 void TaskManager::deleteProject(ID project) {
     for(const auto& task : getAssociatedTasks(project)) {
         if(allTasks.at(task)->isProjectDependant())
@@ -123,8 +147,14 @@ void TaskManager::testPrintTasks() const {
     for (const auto& [id, project] : this->allProjects) {
         std::cout << "Project: " << "ID: " << id << " Name: "<< project->getName() << std::endl;
         std::cout << "Assigned Tasks: " << std::endl;
+        //TODO: the task rules are obviously tacked on, this is a symptom of bad design
         for(const auto& task : getAssociatedTasks(id))
-            std::cout << "ID: " << task << " Name: " << allTasks.at(task)->getName() << std::endl;
+            if(allTasks.count(task)) {
+                std::cout << "ID: " << task << " Name: " << allTasks.at(task)->getName() << std::endl;
+            } else {
+                std::cout << "ID: " << task << " Name: " << allTaskRules.at(task)->getName() << std::endl;
+            }
+
         std::cout << std::endl;
     }
 
@@ -145,5 +175,7 @@ bool TaskManager::validateProjectID(const ID id) const {
     return allProjects.count(id);
 }
 
+void TaskManager::generateEncodings(TimeDefs::Date startDate, TimeDefs::Date endDate) const {
 
+}
 
