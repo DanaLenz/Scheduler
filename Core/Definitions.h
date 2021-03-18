@@ -8,12 +8,13 @@
 #include "boost/date_time/gregorian/gregorian.hpp"
 #include "boost/date_time/posix_time/posix_time.hpp"
 
-
     using Priority = int;
 
 namespace TimeDefs {
+
     using Date = boost::gregorian::date;
     using DatePeriod = boost::gregorian::date_period;
+    using DateDuration = boost::gregorian::date_duration;
 
     using Weekday = boost::gregorian::greg_weekday;
 

@@ -14,6 +14,7 @@ if(Boost_FOUND)
             Core/Tasks/Task.cpp Core/Tasks/Task.h Core/Tasks/Project.cpp Core/Tasks/Project.h
             Core/Tasks/TaskManager.cpp Core/Tasks/TaskManager.h
             Core/Tasks/IDGenerator.cpp Core/Tasks/IDGenerator.h
+            Core/Tasks/TaskRule.cpp Core/Tasks/TaskRule.h
             Core/Calendar/Timeslot.cpp Core/Calendar/Timeslot.h
             Core/Calendar/CalendarGenerator.cpp Core/Calendar/CalendarGenerator.h
             Core/Calendar/TimeslotRule.cpp Core/Calendar/TimeslotRule.h
