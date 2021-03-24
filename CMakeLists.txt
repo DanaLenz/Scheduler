@@ -3,6 +3,11 @@ project(Scheduler)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(wxWidgets_ROOT_DIR </usr/include/wx-3.0>)
+set(wxWidgets_CONFIGURATION mswu)
+find_package(wxWidgets COMPONENTS core base REQUIRED)
+include(${wxWidgets_USE_FILE})
+
 find_package(Boost REQUIRED COMPONENTS "date_time")
 
 if(Boost_FOUND)
@@ -20,15 +25,15 @@ if(Boost_FOUND)
             Core/Calendar/TimeslotRule.cpp Core/Calendar/TimeslotRule.h
             Core/Definitions.h
             Core/Calendar/Calendar.cpp Core/Calendar/Calendar.h
-            Core/Tag.cpp Core/Tag.h)
+            Core/Tag.cpp Core/Tag.h UI/taskWindow.cpp UI/taskWindow.h)
 
 #    target_link_libraries(progname Boost::filesystem)
+    target_link_libraries(Scheduler ${wxWidgets_LIBRARIES})
+
 else()
     message(FATAL_ERROR "boost libraries not found")
 endif()
 
-
-# Core/PriorityQueue.cpp Core/PriorityQueue.h Core/Tag.cpp Core/Tag.h
 
 # C:\boost_1_72_0 compiler include path
 # C:\boost_1_72_0\stage\lib linker library path
