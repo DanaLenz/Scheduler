@@ -4,7 +4,9 @@ project(Scheduler)
 set(CMAKE_CXX_STANDARD 17)
 
 set(wxWidgets_ROOT_DIR </usr/include/wx-3.0>)
-set(wxWidgets_CONFIGURATION mswu)
+#set(wxWidgets_CXX_FLAGS)
+set(wxWidgets_USE_LIBS)
+#set(wxWidgets_CONFIGURATION mswu)
 find_package(wxWidgets COMPONENTS core base REQUIRED)
 include(${wxWidgets_USE_FILE})
 
@@ -25,7 +27,9 @@ if(Boost_FOUND)
             Core/Calendar/TimeslotRule.cpp Core/Calendar/TimeslotRule.h
             Core/Definitions.h
             Core/Calendar/Calendar.cpp Core/Calendar/Calendar.h
-            Core/Tag.cpp Core/Tag.h UI/taskWindow.cpp UI/taskWindow.h)
+            Core/Tag.cpp Core/Tag.h
+            UI/schedulerApp.cpp UI/schedulerApp.h
+            UI/MainFrame.cpp UI/MainFrame.h UI/wxDefs.h)
 
 #    target_link_libraries(progname Boost::filesystem)
     target_link_libraries(Scheduler ${wxWidgets_LIBRARIES})

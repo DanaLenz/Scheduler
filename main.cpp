@@ -4,6 +4,13 @@
 
 #include "boost/date_time/gregorian/gregorian.hpp"
 
+#include "UI/schedulerApp.h"
+#include <wx/wx.h>
+#include <wx/app.h>
+
+wxIMPLEMENT_APP(schedulerApp);
+
+/*
 int main() {
 
 
@@ -49,3 +56,4 @@ int main() {
 
     return 0;
 }
+*/
