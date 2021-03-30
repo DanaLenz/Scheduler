@@ -4,6 +4,10 @@
 
 #include "TaskRule.h"
 
+const std::map<std::string, RecurrenceType> TaskRule::recurrenceTypeStrings = {{"X Times Each Week", RecurrenceType::X_IN_WEEK},
+                                                             {"Every X Days", RecurrenceType::EVERY_X_DAYS},
+                                                             {"Infinite", RecurrenceType::INFINITE}};
+
 const TimeDefs::Date &TaskRule::getStartDate() const {
     return startDate;
 }
@@ -72,8 +76,8 @@ bool TaskRule::isOptional1() const {
     return optional;
 }
 
-void TaskRule::setOptional1(bool optional) {
-    TaskRule::optional = optional;
+void TaskRule::setOptional1(bool opt) {
+    optional = opt;
 }
 
 DeadlineType TaskRule::getDeadlineType() const {

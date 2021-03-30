@@ -29,7 +29,9 @@ if(Boost_FOUND)
             Core/Calendar/Calendar.cpp Core/Calendar/Calendar.h
             Core/Tag.cpp Core/Tag.h
             UI/schedulerApp.cpp UI/schedulerApp.h
-            UI/MainFrame.cpp UI/MainFrame.h UI/wxDefs.h)
+            UI/MainFrame.cpp UI/MainFrame.h
+            UI/wxDefs.h
+            UI/TaskRuleDialog.cpp UI/TaskRuleDialog.h)
 
 #    target_link_libraries(progname Boost::filesystem)
     target_link_libraries(Scheduler ${wxWidgets_LIBRARIES})

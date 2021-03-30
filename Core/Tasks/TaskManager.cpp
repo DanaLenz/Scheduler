@@ -88,6 +88,10 @@ Project& TaskManager::getProject(const ID& id) {
     return *allProjects.at(id);
 }
 
+TaskRule& TaskManager::getTaskRule(const ID& id) {
+    return *allTaskRules.at(id);
+}
+
 Project& TaskManager::associatedProject(const ID& task) {
     return getProject(getAssignedProject(task));
 }
@@ -177,5 +181,16 @@ bool TaskManager::validateProjectID(const ID id) const {
 
 void TaskManager::generateEncodings(TimeDefs::Date startDate, TimeDefs::Date endDate) const {
 
+}
+
+std::vector<ID> TaskManager::getAllTaskRules() {
+
+    std::vector<ID> result;
+
+    for(auto &tr : allTaskRules) {
+        result.push_back(tr.first);
+    }
+
+    return result;
 }
 

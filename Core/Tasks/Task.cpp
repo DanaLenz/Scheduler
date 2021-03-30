@@ -33,8 +33,8 @@ const std::string &Task::getName() const {
     return name;
 }
 
-void Task::setName(const std::string &name) {
-    Task::name = name;
+void Task::setName(const std::string &n) {
+    name = n;
 }
 
 float Task::getNeededTime() const {

@@ -115,10 +115,18 @@ public:
      * @return Reference to the task
      */
     [[nodiscard]] Task& getTask(const ID& id);
+
     /**
-     * @param task ID of the task
-     * @return Reference to the project the task is assigned to
+     * @param id ID of the requested task rule
+     * @return Reference to the task rule
      */
+    [[nodiscard]] TaskRule& getTaskRule(const ID& id);
+
+
+        /**
+         * @param task ID of the task
+         * @return Reference to the project the task is assigned to
+         */
     [[nodiscard]] Project& associatedProject(const ID& task);
     /**
      * @param project ID of the project
@@ -173,6 +181,12 @@ public:
      * @param endDate Last day tasks should be generated for
      */
     void generateEncodings(TimeDefs::Date startDate, TimeDefs::Date endDate) const;
+
+    /**
+     * Returns a vector with IDs of all stored task rules.
+     * @return IDs of all task rules
+     */
+    [[nodiscard]] std::vector<ID> getAllTaskRules();
 
 private:
 

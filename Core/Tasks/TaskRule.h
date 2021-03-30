@@ -57,6 +57,8 @@ private:
 
 public:
 
+    static const std::map<std::string, RecurrenceType> recurrenceTypeStrings;
+
     explicit TaskRule (std::string name);
 
     const TimeDefs::Date &getStartDate() const;
