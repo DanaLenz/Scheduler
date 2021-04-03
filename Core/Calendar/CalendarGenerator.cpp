@@ -5,24 +5,20 @@
 
 #include "CalendarGenerator.h"
 
-void CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes,
-                                           const long duration) {
+std::set<TimeslotRule>::const_iterator CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes,
+                                                          const long duration) {
 
-    if(weekday_num < 1 || weekday_num > 7)
+   // if(weekday_num < 1 || weekday_num > 7)
         //TODO: Error: bad parameter
-        return;
-    if (start_hour < 0 || start_hour > 23)
+   // if (start_hour < 0 || start_hour > 23)
         //TODO: Error: bad parameter
-        return;
-    if(start_minutes < 0 || start_minutes > 59)
+   // if(start_minutes < 0 || start_minutes > 59)
         //TODO: Error: bad parameter
-        return;
-    if(duration < 0)
+   // if(duration < 0)
         //TODO: Error: bad parameter
-        return;
-    if(start_hour*60 + start_minutes + duration >= 24*60)
+   // if(start_hour*60 + start_minutes + duration >= 24*60)
         //TODO: Error: timeslot going over midnight
-        return;
+
 
 
     // Transform parameter types to internally used boost types
@@ -33,10 +29,9 @@ void CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, con
     auto emplace_return = timeslotRules.emplace(boost_weekday, boost_startTime, boost_duration);
 
     // Check for errors and overlap
-    if(!emplace_return.second)
+   // if(!emplace_return.second)
         //TODO: Error: something has gone wrong when inserting
-        return;
-    else {
+   // else {
 
         auto &position = emplace_return.first;
 
@@ -46,7 +41,6 @@ void CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, con
                 if (previous->getStartTime() + previous->getDuration() >= boost_startTime) {
                     //TODO: Error: overlap
                     timeslotRules.erase(position);
-                    return;
                 }
         }
 
@@ -56,12 +50,12 @@ void CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, con
                 if (boost_startTime + boost_duration >= next->getStartTime()) {
                     //TODO: Error: overlap
                     timeslotRules.erase(position);
-                    return;
                 }
         }
 
-    }
+    //}
 
+    return emplace_return.first;
 }
 
 

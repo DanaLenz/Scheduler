@@ -3,6 +3,7 @@
 //
 
 #include "TaskRuleDialog.h"
+#include "../Core/Tasks/TaskRule.h"
 #include <wx/sizer.h>
 #include <wx/datetime.h>
 #include <wx/grid.h>
@@ -84,13 +85,18 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
     //validator_recurrence = new  wxNumericPropertyValidator( wxNumericPropertyValidator::Unsigned);
     label_recurrence = new wxStaticText(this, ID_labelRec, "Times a week");
 
-    combo_deadlineType = new wxComboBox(this, ID_comboDeadline);
+    wxArrayString dlStrings;
+    for(const auto &pair : TaskRule::deadlineTypeStrings)
+        dlStrings.Add(pair.first);
+    combo_deadlineType = new wxComboBox(this, ID_comboDeadline, dlStrings[0], wxDefaultPosition, wxDefaultSize, dlStrings);
     label_deadlineType = new wxStaticText(this, wxID_ANY, "Deadline Type");
 
     date_absoluteDeadline = new wxDatePickerCtrl (this, ID_dateAbsolute, wxDateTime::Today());
-    //text_relativeDeadline = new wxTextCtrl(this, ID_textRec);
+    label_absoluteDeadline = new wxStaticText(this, ID_labelDeadline, "Deadline");
+
+    text_relativeDeadline = new wxTextCtrl(this, ID_textRec, "1");
     //validator_relativeDeadline = new  wxNumericPropertyValidator( wxNumericPropertyValidator::Unsigned);
-    label_deadline = new wxStaticText(this, ID_labelDeadline, "Deadline");
+    label_relativeDeadline = new wxStaticText(this, wxID_ANY, "Days to Deadline");
 
 
     auto *sizer_time = new wxGridSizer(2);
@@ -110,8 +116,11 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
     sizer_time->Add(label_deadlineType);
     sizer_time->Add(combo_deadlineType);
 
-    sizer_time->Add(label_deadline);
+    sizer_time->Add(label_absoluteDeadline);
     sizer_time->Add(date_absoluteDeadline);
+
+    sizer_time->Add(label_relativeDeadline);
+    sizer_time->Add(text_relativeDeadline);
 
 
     // ---------------------------------------------------------------------------------
@@ -140,6 +149,8 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
     Bind(wxEVT_BUTTON, &TaskRuleDialog::OnCancel, this, ID_buttonCancel);
     Bind(wxEVT_BUTTON, &TaskRuleDialog::OnSave, this, ID_buttonSave);
 
+    //Bind(wxEVT_COMBOBOX, &TaskFrame::OnDLTypeSelection, this, ID_comboDeadline);
+
     SetSizerAndFit(sizer_top);
     Centre();
 
@@ -159,8 +170,8 @@ void TaskRuleDialog::OnSave(wxCommandEvent &event) {
     //auto project =
     //taskRule.setProject();
 
-    //auto time = std::stoi(text_time->GetLineText(0).ToStdString());
-    //taskRule.setNeededTime(time);
+    auto time = std::stoi(text_time->GetLineText(0).ToStdString());
+    taskRule.setNeededTime(time);
 
     auto dependant = check_dependant->IsChecked();
     taskRule.setProjectDependant(dependant);
@@ -174,17 +185,43 @@ void TaskRuleDialog::OnSave(wxCommandEvent &event) {
     auto endDate = date_end->GetValue();
     //taskRule.setEndDate(endDate);
 
-    //auto recurrenceType =;
-    //switch(recurrenceType)
+    auto recurrenceType = TaskRule::recurrenceTypeStrings.at(combo_recurrenceType->GetValue().ToStdString(wxConvUTF8));
+    taskRule.setRecurrenceType(recurrenceType);
 
-    //deadlineType
+    switch (recurrenceType) {
 
-    //switch(deadlineType) {
+        case RecurrenceType::INFINITE :
+            break;
 
-    //}
-    //absoluteDeadline
+        case RecurrenceType::X_IN_WEEK :
+            taskRule.setXtimes(std::stoi(text_recurrence->GetValue().ToStdString(wxConvUTF8)));
+            break;
 
-    //relativeDeadline
+        case RecurrenceType::EVERY_X_DAYS :
+            auto daynum = std::stoi(text_recurrence->GetValue().ToStdString(wxConvUTF8));
+            TimeDefs::DateDuration dur {daynum};
+            taskRule.setEveryXDays(dur);
+            break;
+    }
+
+    auto deadlineType = TaskRule::deadlineTypeStrings.at(combo_deadlineType->GetValue().ToStdString(wxConvUTF8));
+
+    switch(deadlineType) {
+
+        case DeadlineType::NONE :
+            break;
+
+        case DeadlineType::ABSOLUTE :
+            taskRule.setDeadlineType(DeadlineType::ABSOLUTE);
+            taskRule.setAbsoluteDeadline(boost::gregorian::from_string(date_absoluteDeadline->GetValue().Format("%F").ToStdString(wxConvUTF8)));
+            break;
+
+        case DeadlineType::RELATIVE :
+            taskRule.setDeadlineType(DeadlineType::RELATIVE);
+            taskRule.setRelativeDeadline(TimeDefs::DateDuration {std::stoi(text_relativeDeadline->GetValue().ToStdString(wxConvUTF8))});
+            break;
+
+    }
 
     EndModal(0);
 

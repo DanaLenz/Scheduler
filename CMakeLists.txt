@@ -29,12 +29,13 @@ if(Boost_FOUND)
             Core/Calendar/Calendar.cpp Core/Calendar/Calendar.h
             Core/Tag.cpp Core/Tag.h
             UI/schedulerApp.cpp UI/schedulerApp.h
-            UI/MainFrame.cpp UI/MainFrame.h
+            UI/TaskFrame.cpp UI/TaskFrame.h
             UI/wxDefs.h
-            UI/TaskRuleDialog.cpp UI/TaskRuleDialog.h)
+            UI/TaskRuleDialog.cpp UI/TaskRuleDialog.h UI/TimeslotFrame.cpp UI/TimeslotFrame.h UI/TimeslotDialog.cpp UI/TimeslotDialog.h UI/Menubar.cpp UI/Menubar.h UI/MainFrame.cpp UI/MainFrame.h)
 
 #    target_link_libraries(progname Boost::filesystem)
     target_link_libraries(Scheduler ${wxWidgets_LIBRARIES})
+    target_link_libraries(Scheduler ${Boost_DATE_TIME_LIBRARY})
 
 else()
     message(FATAL_ERROR "boost libraries not found")

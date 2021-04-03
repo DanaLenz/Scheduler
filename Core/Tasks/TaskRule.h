@@ -58,6 +58,7 @@ private:
 public:
 
     static const std::map<std::string, RecurrenceType> recurrenceTypeStrings;
+    static const std::map<std::string, DeadlineType> deadlineTypeStrings;
 
     explicit TaskRule (std::string name);
 

@@ -63,12 +63,12 @@ public:
      * The estimated time affects what timeslots can be selected for a task
      * @return Estimated amount of time needed to complete this task
      */
-    [[nodiscard]] float getNeededTime() const;
+    [[nodiscard]] size_t getNeededTime() const;
     /**
      * The estimated time affects what timeslots can be selected for a task
      * @param neededTime Estimated amount of time needed to complete this task
      */
-    void setNeededTime(float neededTime);
+    void setNeededTime(size_t neededTime);
 
     /**
      * The deadline of a task, may differ of that of its assigned project.
@@ -101,7 +101,7 @@ public:
 protected:
 
     std::string name;
-    float neededTime;
+    size_t neededTime;
     bool projectDependant;
     bool optional;
 

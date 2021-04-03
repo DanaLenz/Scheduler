@@ -8,6 +8,10 @@ const std::map<std::string, RecurrenceType> TaskRule::recurrenceTypeStrings = {{
                                                              {"Every X Days", RecurrenceType::EVERY_X_DAYS},
                                                              {"Infinite", RecurrenceType::INFINITE}};
 
+const std::map<std::string, DeadlineType> TaskRule::deadlineTypeStrings = {{"None", DeadlineType::NONE},
+                                                                           {"Absolute", DeadlineType::ABSOLUTE},
+                                                                           {"Relative", DeadlineType::RELATIVE}};
+
 const TimeDefs::Date &TaskRule::getStartDate() const {
     return startDate;
 }

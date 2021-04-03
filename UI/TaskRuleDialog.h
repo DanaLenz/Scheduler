@@ -58,17 +58,18 @@ private:
     wxStaticText *label_recurrenceType;
 
     wxTextCtrl *text_recurrence;
-    wxNumericPropertyValidator *validator_recurrence;
+    //wxNumericPropertyValidator validator_recurrence;
     wxStaticText *label_recurrence;
 
     wxComboBox *combo_deadlineType;
     wxStaticText *label_deadlineType;
 
     wxDatePickerCtrl *date_absoluteDeadline;
-    wxTextCtrl *text_relativeDeadline;
-    wxNumericPropertyValidator *validator_relativeDeadline;
-    wxStaticText *label_deadline;
+    wxStaticText *label_absoluteDeadline;
 
+    wxTextCtrl *text_relativeDeadline;
+    //wxNumericPropertyValidator *validator_relativeDeadline;
+    wxStaticText *label_relativeDeadline;
 
     // ------------------------
     // Layout Definitions
@@ -79,6 +80,10 @@ private:
 
     void OnSave(wxCommandEvent &event);
     void OnCancel(wxCommandEvent &event);
+
+    void OnDLTypeSelection(wxCommandEvent& event);
+#
+
 
 };
 

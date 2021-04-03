@@ -40,7 +40,8 @@ public:
      * @param start_minutes The minutes part of the starting time
      * @param duration The duration of the timeslot in hours
      */
-    void createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes, const long duration);
+    std::set<TimeslotRule>::const_iterator
+    createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes, const long duration);
     /**
      * Delete a time slot Rule
      * @param timeslotRule Rule to be deleted

@@ -3,9 +3,12 @@
 //
 
 #include "schedulerApp.h"
-#include "MainFrame.h"
+#include "TaskFrame.h"
+//#include "Menubar.h"
 
 #include <wx/app.h>
+#include "wx/menu.h"
+#include "MainFrame.h"
 
 bool schedulerApp::OnInit() {
 
@@ -24,9 +27,12 @@ bool schedulerApp::OnInit() {
 
     taskManager.getTaskRule(pet).setOptional(true);
 
+    auto monday = calendarGenerator.createTimeslotRule(1, 15, 0, 2);
+
     // ------------------------------
 
-    MainFrame *mainFrame = new MainFrame("Test", taskManager);
+
+    MainFrame *mainFrame = new MainFrame("", taskManager, calendarGenerator);
 
     mainFrame->Show(true);
 

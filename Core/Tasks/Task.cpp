@@ -37,11 +37,11 @@ void Task::setName(const std::string &n) {
     name = n;
 }
 
-float Task::getNeededTime() const {
+size_t Task::getNeededTime() const {
     return neededTime;
 }
 
-void Task::setNeededTime(float neededTime) {
+void Task::setNeededTime(size_t neededTime) {
     Task::neededTime = neededTime;
 }
 
