@@ -31,7 +31,11 @@ if(Boost_FOUND)
             UI/schedulerApp.cpp UI/schedulerApp.h
             UI/TaskFrame.cpp UI/TaskFrame.h
             UI/wxDefs.h
-            UI/TaskRuleDialog.cpp UI/TaskRuleDialog.h UI/TimeslotFrame.cpp UI/TimeslotFrame.h UI/TimeslotDialog.cpp UI/TimeslotDialog.h UI/Menubar.cpp UI/Menubar.h UI/MainFrame.cpp UI/MainFrame.h)
+            UI/TaskRuleDialog.cpp UI/TaskRuleDialog.h
+            UI/TimeslotFrame.cpp UI/TimeslotFrame.h
+            UI/TimeslotDialog.cpp UI/TimeslotDialog.h
+            UI/Menubar.cpp UI/Menubar.h
+            UI/MainFrame.cpp UI/MainFrame.h)
 
 #    target_link_libraries(progname Boost::filesystem)
     target_link_libraries(Scheduler ${wxWidgets_LIBRARIES})

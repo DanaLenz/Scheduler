@@ -3,6 +3,7 @@
 //
 
 #include "TimeslotFrame.h"
+#include "TimeslotDialog.h"
 
 TimeslotFrame::TimeslotFrame(wxWindow * parent, CalendarGenerator &cal) : wxPanel(parent),
                                                                calendar(cal) {
@@ -53,11 +54,9 @@ TimeslotFrame::TimeslotFrame(wxWindow * parent, CalendarGenerator &cal) : wxPane
 
 void TimeslotFrame::OnAdd(wxCommandEvent& event) {
 
-    //TaskRuleDialog *trd = new TaskRuleDialog(this, tr);
+    TimeslotDialog *tsd = new TimeslotDialog(this, calendar);
 
-    // returns 0 if adding was successful
-    //if(trd->ShowModal())
-    //    taskManager.deleteTaskRule(id);
+    tsd->ShowModal();
 
     refreshTSRules();
 
@@ -107,10 +106,8 @@ void TimeslotFrame::refreshTSRules() {
 
     timeslotlistctrl->DeleteAllItems();
 
-   // for(auto &id : calendar.getAllTSRules()) {
+    for(const auto &tsr : calendar.getTimeslotRules()) {
 
-     //   auto tr = &taskManager.getTaskRule(id);
-     //   auto project = &taskManager.getProject(taskManager.getAssignedProject(id));
-     //   addTaskRule(id, tr, project);
-   // }
+        addTimeslotRule(tsr);
+    }
 }

@@ -22,4 +22,16 @@ namespace TimeDefs {
     using TimePeriod = boost::posix_time::time_duration;
 }
 
+enum class Weekday : unsigned short {
+
+    SUNDAY = 0,
+    MONDAY = 1,
+    TUESDAY = 2,
+    WEDNESDAY = 3,
+    THURSDAY = 4,
+    FRIDAY = 5,
+    SATURDAY = 6
+
+};
+
 #endif //SCHEDULER_DEFINITIONS_H

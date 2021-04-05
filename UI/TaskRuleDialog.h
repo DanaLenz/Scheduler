@@ -82,7 +82,6 @@ private:
     void OnCancel(wxCommandEvent &event);
 
     void OnDLTypeSelection(wxCommandEvent& event);
-#
 
 
 };

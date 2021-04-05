@@ -21,7 +21,7 @@ public:
      * Needs to be initialized with a weekday, start time and duration.
      * A timeslot needs to be contained inside a single day.
      */
-    TimeslotRule(const TimeDefs::Weekday &weekday, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration);
+    TimeslotRule(const Weekday &weekday, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration);
 
     /**
      * @return Start time of the time slot rule
@@ -47,5 +47,7 @@ private:
 };
 
 bool operator<(const TimeslotRule& lhs, const TimeslotRule& rhs);
+
+bool operator==(const TimeslotRule& lhs, const TimeslotRule& rhs);
 
 #endif //SCHEDULER_TIMESLOTRULE_H

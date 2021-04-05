@@ -5,8 +5,8 @@
 
 #include "CalendarGenerator.h"
 
-std::set<TimeslotRule>::const_iterator CalendarGenerator::createTimeslotRule(const unsigned short weekday_num, const long start_hour, const long start_minutes,
-                                                          const long duration) {
+std::vector<TimeslotRule>::const_iterator CalendarGenerator::createTimeslotRule(const Weekday &weekday, const std::string start_time, const long duration) {
+
 
    // if(weekday_num < 1 || weekday_num > 7)
         //TODO: Error: bad parameter
@@ -20,47 +20,50 @@ std::set<TimeslotRule>::const_iterator CalendarGenerator::createTimeslotRule(con
         //TODO: Error: timeslot going over midnight
 
 
-
     // Transform parameter types to internally used boost types
-    TimeDefs::Weekday boost_weekday {weekday_num};
-    TimeDefs::TimePeriod boost_startTime {start_hour, start_minutes, 0};
-    TimeDefs::TimePeriod boost_duration {duration/60, duration%60, 0};
+    TimeDefs::Weekday boost_weekday {(unsigned short) weekday};
+    TimeDefs::TimePeriod boost_startTime = boost::posix_time::duration_from_string(start_time);
+    TimeDefs::TimePeriod boost_duration {0, duration, 0, 0};
 
-    auto emplace_return = timeslotRules.emplace(boost_weekday, boost_startTime, boost_duration);
+    TimeslotRule tsr {weekday, boost_startTime, boost_duration};
 
-    // Check for errors and overlap
-   // if(!emplace_return.second)
-        //TODO: Error: something has gone wrong when inserting
-   // else {
+    size_t insert;
 
-        auto &position = emplace_return.first;
+    for(insert = 0; insert < timeslotRules.size(); insert++) {
 
-        if(position != timeslotRules.begin()) {
-            auto previous = std::prev(position, 1);
-            if (boost_weekday == previous->getWeekday())
-                if (previous->getStartTime() + previous->getDuration() >= boost_startTime) {
-                    //TODO: Error: overlap
-                    timeslotRules.erase(position);
-                }
+        auto &compare = timeslotRules.at(insert);
+
+        if(compare.getWeekday() < boost_weekday)
+            continue;
+
+        //check overlap
+        else if(compare.getWeekday() == boost_weekday) {
+            if (compare.getStartTime() < boost_startTime &&
+                compare.getStartTime() + compare.getDuration() > boost_startTime)
+                //TODO: overlap!
+                return timeslotRules.end();
+
+            else if (compare.getStartTime() > boost_startTime &&
+                boost_startTime + boost_duration > compare.getStartTime())
+                return timeslotRules.end();
+
+            else if (compare.getStartTime() == boost_startTime)
+                    return timeslotRules.end();
         }
+        else  // case: later weekday, position found
+            break;
+    }
 
-        if(std::next(position) != timeslotRules.end()) {
-            auto next = std::next(position, 1);
-            if (boost_weekday == next->getWeekday())
-                if (boost_startTime + boost_duration >= next->getStartTime()) {
-                    //TODO: Error: overlap
-                    timeslotRules.erase(position);
-                }
-        }
+    //TODO: this wont work if the position is at end of vector
+    auto iter = timeslotRules.begin() + insert;
+    timeslotRules.emplace(iter, TimeslotRule {weekday, boost_startTime, boost_duration});
 
-    //}
-
-    return emplace_return.first;
+    return iter;
 }
 
 
 void CalendarGenerator::deleteTimeslotRule(TimeslotRule &timeslotRule) {
-    timeslotRules.erase(timeslotRule);
+    timeslotRules.erase(std::remove(timeslotRules.begin(), timeslotRules.end(), timeslotRule));
 }
 
 
@@ -98,6 +101,11 @@ Calendar CalendarGenerator::generateCalendar(const TimeDefs::Date &firstDay, con
 
 }
 
+const std::map<std::string, Weekday> CalendarGenerator::weekdayStrings = {{"Sunday", Weekday::SUNDAY}, {"Monday", Weekday::MONDAY},
+                                                      {"Tuesday", Weekday::TUESDAY}, {"Wednesday", Weekday::WEDNESDAY},
+                                                      {"Thursday", Weekday::THURSDAY}, {"Friday", Weekday::FRIDAY},
+                                                      {"Saturday", Weekday::SATURDAY}};
+
 void CalendarGenerator::printRules() const {
 
     for(const auto &rule : timeslotRules) {
@@ -107,4 +115,15 @@ void CalendarGenerator::printRules() const {
         std::cout << "Duration: " << rule.getDuration() << std::endl;
         std::cout << std::endl;
     }
+}
+
+std::vector<TimeslotRule *> CalendarGenerator::getTimeslotRules() {
+
+    std::vector<TimeslotRule *> result;
+
+    for(auto &tsr : timeslotRules) {
+        result.push_back(&tsr);
+    }
+
+    return result;
 }

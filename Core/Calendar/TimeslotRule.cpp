@@ -5,8 +5,8 @@
 #include "TimeslotRule.h"
 
 
-TimeslotRule::TimeslotRule(const TimeDefs::Weekday &weekday, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration)
-        : weekday{weekday}, startTime{startTime}, duration{duration}  {}
+TimeslotRule::TimeslotRule(const Weekday &weekday, const TimeDefs::TimePeriod &startTime, const TimeDefs::TimePeriod &duration)
+        : weekday{(unsigned short) weekday}, startTime{startTime}, duration{duration}  {}
 
 
 bool operator<(const TimeslotRule& lhs, const TimeslotRule& rhs) {
@@ -20,6 +20,11 @@ bool operator<(const TimeslotRule& lhs, const TimeslotRule& rhs) {
     else
         return lhs.getStartTime() < rhs.getStartTime();
 
+}
+
+bool operator==(const TimeslotRule &lhs, const TimeslotRule &rhs) {
+    return (lhs.getWeekday() == rhs.getWeekday()
+        && lhs.getStartTime() == rhs.getStartTime());
 }
 
 const TimeDefs::TimePeriod &TimeslotRule::getStartTime() const {

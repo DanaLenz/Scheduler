@@ -180,10 +180,12 @@ void TaskRuleDialog::OnSave(wxCommandEvent &event) {
     taskRule.setOptional(optional);
 
     auto startDate = date_start->GetValue();
-    //taskRule.setStartDate(startDate);
+    auto stringDate = startDate.Format("%F").ToStdString(wxConvUTF8);
+    taskRule.setStartDate(boost::gregorian::from_string(stringDate));
 
     auto endDate = date_end->GetValue();
-    //taskRule.setEndDate(endDate);
+    auto stringEndDate = endDate.Format("%F").ToStdString(wxConvUTF8);
+    taskRule.setEndDate(boost::gregorian::from_string(stringEndDate));
 
     auto recurrenceType = TaskRule::recurrenceTypeStrings.at(combo_recurrenceType->GetValue().ToStdString(wxConvUTF8));
     taskRule.setRecurrenceType(recurrenceType);

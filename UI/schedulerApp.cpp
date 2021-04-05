@@ -5,6 +5,7 @@
 #include "schedulerApp.h"
 #include "TaskFrame.h"
 //#include "Menubar.h"
+#include "../Core/Definitions.h"
 
 #include <wx/app.h>
 #include "wx/menu.h"
@@ -27,7 +28,7 @@ bool schedulerApp::OnInit() {
 
     taskManager.getTaskRule(pet).setOptional(true);
 
-    auto monday = calendarGenerator.createTimeslotRule(1, 15, 0, 2);
+    auto monday = calendarGenerator.createTimeslotRule(Weekday::MONDAY, "15:00:00", 2);
 
     // ------------------------------
 
