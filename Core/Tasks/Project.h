@@ -34,32 +34,32 @@ public:
 
 
     /**
-     * The minimum hours that should be spend on a project per week.
+     * The minimum minutes that should be spend on a project per week.
      * This denotes a strong preference, not a guarantee.
-     * @return Preferred minimal amount of hours that should be spend on a project per week
+     * @return Preferred minimal amount of minutes that should be spend on a project per week
      */
-    [[nodiscard]] float getMinimumWeeklyHours() const;
+    [[nodiscard]] unsigned int getMinimumWeeklyMinutes() const;
     /**
-     * The minimum hours that should be spend on a project per week.
+     * The minimum minutes that should be spend on a project per week.
      * This denotes a strong preference, not a guarantee.
-     * @param minimumWeeklyHours Preferred minimal amount of hours that should be spend on a project per week
+     * @param minimumWeeklyMinutes Preferred minimal amount of minutes that should be spend on a project per week
      */
-    void setMinimumWeeklyHours(float minimumWeeklyHours);
+    void setMinimumWeeklyMinutes(unsigned int minimumWeeklyHours);
 
     /**
-     * The maximal amount of hours that should be spent on a project
+     * The maximal amount of minutes that should be spent on a project
      * each week. This is a strong preference, not a guarantee, and
      * may be ignored to meet a deadline.
-     * @return Preferred maximal amount of hours spent on a project each week
+     * @return Preferred maximal amount of minutes spent on a project each week
      */
-    [[nodiscard]] float getMaximumWeeklyHours() const;
+    [[nodiscard]] unsigned int getMaximumWeeklyMinutes() const;
     /**
-     * The maximal amount of hours that should be spent on a project
+     * The maximal amount of minutes that should be spent on a project
      * each week. This is a strong preference, not a guarantee, and
      * may be ignored to meet a deadline.
-     * @param maximumWeeklyHours Preferred maximal amount of hours spent on a project each week
+     * @param maximumWeeklyHours Preferred maximal amount of minutes spent on a project each week
      */
-    void setMaximumWeeklyHours(float maximumWeeklyHours);
+    void setMaximumWeeklyMinutes(unsigned int maximumWeeklyHours);
 
     /**
      * Note: project names can be changed freely, since they are
@@ -97,8 +97,8 @@ private:
 
     std::string name;
     TimeDefs::Date deadline;
-    float minimumWeeklyHours;
-    float maximumWeeklyHours;
+    unsigned int minimumWeeklyMinutes;
+    unsigned int maximumWeeklyMinutes;
 
 };
 

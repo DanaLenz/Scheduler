@@ -9,25 +9,25 @@
 
 Project::Project() : Project("") {};
 
-Project::Project(std::string name) : name(std::move(name)), minimumWeeklyHours(0), maximumWeeklyHours(0)
+Project::Project(std::string name) : name(std::move(name)), minimumWeeklyMinutes(0), maximumWeeklyMinutes(0)
 {}
 
 //simple, boring Getters and Setters below
 
-float Project::getMinimumWeeklyHours() const {
-    return minimumWeeklyHours;
+unsigned int Project::getMinimumWeeklyMinutes() const {
+    return minimumWeeklyMinutes;
 }
 
-void Project::setMinimumWeeklyHours(float minimumWeeklyHours) {
-    Project::minimumWeeklyHours = minimumWeeklyHours;
+void Project::setMinimumWeeklyMinutes(unsigned int minimumWeeklyHours) {
+    Project::minimumWeeklyMinutes = minimumWeeklyHours;
 }
 
-float Project::getMaximumWeeklyHours() const {
-    return maximumWeeklyHours;
+unsigned int Project::getMaximumWeeklyMinutes() const {
+    return maximumWeeklyMinutes;
 }
 
-void Project::setMaximumWeeklyHours(float maximumWeeklyHours) {
-    Project::maximumWeeklyHours = maximumWeeklyHours;
+void Project::setMaximumWeeklyMinutes(unsigned int maximumWeeklyHours) {
+    Project::maximumWeeklyMinutes = maximumWeeklyHours;
 }
 
 const std::string &Project::getName() const {

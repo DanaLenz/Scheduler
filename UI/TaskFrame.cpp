@@ -10,23 +10,6 @@ TaskFrame::TaskFrame(wxWindow * parent, TaskManager &tm) : wxPanel(parent),
 
     // ---------------------------------------------------------------------------------
 
-
-    wxMenu *menuFile = new wxMenu;
-    menuFile->Append(wxID_EXIT);
-
-    wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append(wxID_ABOUT);
-
-    wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
-    menuBar->Append(menuHelp, "&Help");
-
-
-    Bind(wxEVT_MENU, [=](wxCommandEvent&) {Close(true);}, wxID_EXIT);
-    Bind(wxEVT_MENU, [=](wxCommandEvent&) {wxMessageBox("Ayyy ", "???", wxOK | wxICON_INFORMATION);}, wxID_ABOUT);
-
-    // ---------------------------------------------------------------------------------
-
     wxBoxSizer *sizer_top = new wxBoxSizer(wxVERTICAL);
 
     // ---------------------------------------------------------------------------------

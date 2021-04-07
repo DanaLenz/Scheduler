@@ -20,7 +20,7 @@ public:
 protected:
 
     void OnAdd(wxCommandEvent& event);
-    void OnEdit(wxCommandEvent& event);
+    //void OnEdit(wxCommandEvent& event);
     void OnDelete(wxCommandEvent& event);
     void refreshTSRules();
 
@@ -33,8 +33,8 @@ private:
 
 enum {
     ID_TS_Add = 2,
-    ID_TS_Delete = 3,
-    ID_TS_Edit = 4
+    ID_TS_Delete = 3
+    //ID_TS_Edit = 4
 };
 
 

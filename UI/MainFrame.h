@@ -24,6 +24,9 @@ private:
 
     wxMenuBar *menubar;
     wxMenu *menuTasks;
+    wxMenu *menuFile;
+    wxMenu *menuOutput;
+    wxMenu *menuHelp;
 
     wxPanel *m_panel; // Panel containing notebook and other controls
     wxNotebook *notebook;
@@ -33,7 +36,9 @@ private:
 enum {
     IDMenu_viewTasks,
     IDMenu_addTaskRule,
-    IDPanel_tasks
+    IDPanel_tasks,
+    IDMENU_OUT,
+    IDMENU_SAVE
 };
 
 #endif //SCHEDULER_MAINFRAME_H

@@ -188,6 +188,12 @@ public:
      */
     [[nodiscard]] std::vector<ID> getAllTaskRules();
 
+    /**
+     * Returns a vector with IDs of all stored projects.
+     * @return IDs of all projects
+     */
+    [[nodiscard]] std::vector<ID> getAllProjects();
+
 private:
 
     //static TaskManager * globalTaskManager;

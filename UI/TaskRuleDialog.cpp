@@ -7,6 +7,8 @@
 #include <wx/sizer.h>
 #include <wx/datetime.h>
 #include <wx/grid.h>
+#include <wx/valnum.h>
+
 
 
 TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, const wxString &title, const wxPoint &position,
@@ -30,7 +32,9 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
 
     text_name = new wxTextCtrl(this, ID_textName, taskRule.getName());
     combo_project = new wxComboBox(this, ID_comboProject);
-    text_time = new wxTextCtrl(this, ID_textTime, std::to_string(taskRule.getNeededTime()));
+
+    wxIntegerValidator<unsigned int> validator_time {};
+    text_time = new wxTextCtrl(this, ID_textTime, std::to_string(taskRule.getNeededTime()), wxDefaultPosition, wxDefaultSize, 0, validator_time);
 
     check_dependant = new wxCheckBox(this, ID_checkDependant, wxT("dependant"));
     if(taskRule.isProjectDependant())
@@ -81,8 +85,8 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
                                           recStrings);
     label_recurrenceType = new wxStaticText(this, wxID_ANY, "Recurrence Type");
 
-    text_recurrence = new wxTextCtrl(this, ID_textRec, std::to_string(taskRule.getXtimes()));
-    //validator_recurrence = new  wxNumericPropertyValidator( wxNumericPropertyValidator::Unsigned);
+    wxIntegerValidator<unsigned int> validator_recurrence {};
+    text_recurrence = new wxTextCtrl(this, ID_textRec, std::to_string(taskRule.getXtimes()), wxDefaultPosition, wxDefaultSize, 0, validator_recurrence);
     label_recurrence = new wxStaticText(this, ID_labelRec, "Times a week");
 
     wxArrayString dlStrings;

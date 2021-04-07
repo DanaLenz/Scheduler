@@ -32,16 +32,16 @@ TimeslotFrame::TimeslotFrame(wxWindow * parent, CalendarGenerator &cal) : wxPane
 
     wxButton *button_add = new wxButton(this, ID_TS_Add, wxString("&Add"));
     wxButton *button_delete = new wxButton(this, ID_TS_Delete, wxString("Delete"));
-    wxButton *button_edit = new wxButton(this, ID_TS_Edit, wxString("Edit"));
+    //wxButton *button_edit = new wxButton(this, ID_TS_Edit, wxString("Edit"));
 
     Bind(wxEVT_BUTTON, &TimeslotFrame::OnAdd, this, ID_TS_Add);
     Bind(wxEVT_BUTTON, &TimeslotFrame::OnDelete, this, ID_TS_Delete);
-    Bind(wxEVT_BUTTON, &TimeslotFrame::OnEdit, this, ID_TS_Edit);
+    //Bind(wxEVT_BUTTON, &TimeslotFrame::OnEdit, this, ID_TS_Edit);
 
     wxBoxSizer *sizer_buttons = new wxBoxSizer(wxHORIZONTAL);
     sizer_buttons->Add(button_add);
     sizer_buttons->Add(button_delete);
-    sizer_buttons->Add(button_edit);
+    //sizer_buttons->Add(button_edit);
 
     sizer_top->Add(sizer_buttons, 0, wxALIGN_CENTER_HORIZONTAL);
 
@@ -62,25 +62,28 @@ void TimeslotFrame::OnAdd(wxCommandEvent& event) {
 
 }
 
+/*
 void TimeslotFrame::OnEdit(wxCommandEvent &event) {
 
     auto row = timeslotlistctrl->GetSelectedRow();
-    //std::string stid = tasklistctrl->GetTextValue(row, 0).ToStdString(wxConvUTF8);
-    //auto id = std::stoi(stid);
-    //auto &tr = taskManager.getTaskRule(id);
-    //TaskRuleDialog *trd = new TaskRuleDialog(this, tr);
+
     //trd->ShowModal();
 
     refreshTSRules();
-}
+} */
 
 void TimeslotFrame::OnDelete(wxCommandEvent &event) {
-/*
-    auto row = tasklistctrl->GetSelectedRow();
-    std::string stid = tasklistctrl->GetTextValue(row, 0).ToStdString(wxConvUTF8);
-    auto id = std::stoi(stid);
-    taskManager.deleteTaskRule(id);
-    tasklistctrl->DeleteItem(row);*/
+
+    auto row = timeslotlistctrl->GetSelectedRow();
+    auto weekday_string = timeslotlistctrl->GetTextValue(row, 0).ToStdString(wxConvUTF8);
+    auto start_string = timeslotlistctrl->GetTextValue(row, 1).ToStdString(wxConvUTF8);
+    auto weekday = CalendarGenerator::weekdayStrings.at(weekday_string);
+
+    TimeslotRule compare {weekday, boost::posix_time::duration_from_string(start_string), TimeDefs::TimePeriod {0,10,0,0}};
+
+    calendar.deleteTimeslotRule(compare);
+
+    refreshTSRules();
 
 }
 

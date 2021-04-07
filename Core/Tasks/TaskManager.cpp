@@ -194,3 +194,14 @@ std::vector<ID> TaskManager::getAllTaskRules() {
     return result;
 }
 
+std::vector<ID> TaskManager::getAllProjects() {
+
+    std::vector<ID> result;
+
+    for(auto &tr : allProjects) {
+        result.push_back(tr.first);
+    }
+
+    return result;
+}
+
