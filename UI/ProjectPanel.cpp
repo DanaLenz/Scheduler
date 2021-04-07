@@ -20,9 +20,9 @@ ProjectPanel::ProjectPanel(wxWindow * parent, TaskManager &tm) : wxPanel(parent)
     projectlistctrl = new wxDataViewListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(1200,300));
     projectlistctrl->AppendTextColumn("ID");
     projectlistctrl->AppendTextColumn("Name");
-    projectlistctrl->AppendTextColumn("Deadline");
-    projectlistctrl->AppendTextColumn("Min Minutes Weekly");
-    projectlistctrl->AppendTextColumn("Max Minutes Weekly");
+    projectlistctrl->AppendTextColumn("Deadline", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    projectlistctrl->AppendTextColumn("Min Minutes Weekly", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    projectlistctrl->AppendTextColumn("Max Minutes Weekly", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
 
     sizer_projectlist->Add(projectlistctrl, 1, wxEXPAND);
 
@@ -95,7 +95,11 @@ void ProjectPanel::addProject(const ID id, const Project* const project) {
     data.push_back(wxVariant(project->getName()));
 
     TimeDefs::Date deadline = project->getDeadline();
-    data.push_back(wxVariant(boost::gregorian::to_simple_string(deadline)));
+
+    if(deadline.is_not_a_date())
+        data.push_back(wxT("-"));
+    else
+        data.push_back(wxVariant(boost::gregorian::to_simple_string(deadline)));
 
     data.push_back(wxVariant(std::to_string(project->getMinimumWeeklyMinutes())));
     data.push_back(wxVariant(std::to_string(project->getMaximumWeeklyMinutes())));

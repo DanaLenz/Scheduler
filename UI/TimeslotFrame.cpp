@@ -19,9 +19,9 @@ TimeslotFrame::TimeslotFrame(wxWindow * parent, CalendarGenerator &cal) : wxPane
 
     timeslotlistctrl = new wxDataViewListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(500,300));
 
-    timeslotlistctrl->AppendTextColumn("Weekday");
-    timeslotlistctrl->AppendTextColumn("Start Time");
-    timeslotlistctrl->AppendTextColumn("Duration");
+    timeslotlistctrl->AppendTextColumn("Weekday", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    timeslotlistctrl->AppendTextColumn("Start Time", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    timeslotlistctrl->AppendTextColumn("Duration", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
 
     sizer_timeslotlist->Add(timeslotlistctrl, 1, wxEXPAND);
 

@@ -11,15 +11,21 @@
 #include <wx/datectrl.h>
 #include <wx/grid.h>
 #include "../Core/Tasks/TaskRule.h"
+#include "../Core/Tasks/TaskManager.h"
 
 class TaskRuleDialog : public wxDialog {
 
 public:
-    TaskRuleDialog(wxWindow * parent, TaskRule &tr, wxWindowID id = wxID_ANY, const wxString &title = "Task Rule", const wxPoint &position = wxDefaultPosition, const wxSize &size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
+    TaskRuleDialog(wxWindow * parent, ID taskRuleID, TaskManager &tm, wxWindowID id = wxID_ANY, const wxString &title = "Task Rule", const wxPoint &position = wxDefaultPosition, const wxSize &size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
 
 private:
 
-    TaskRule &taskRule;
+    ID taskRuleID;
+    TaskManager &taskManager;
+    TaskRule *taskRule;
+
+    std::map<wxString, ID> project_map;
+    std::vector<wxString> project_strings;
 
     // ------------------------
     // Task-related definitions

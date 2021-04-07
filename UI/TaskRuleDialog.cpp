@@ -11,9 +11,26 @@
 
 
 
-TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, const wxString &title, const wxPoint &position,
-                               const wxSize &size, long style) : wxDialog(parent, id, title, position, size, style), taskRule(tr) {
+TaskRuleDialog::TaskRuleDialog(wxWindow *parent, ID tr, TaskManager &tm, wxWindowID id, const wxString &title, const wxPoint &position,
+                               const wxSize &size, long style) : wxDialog(parent, id, title, position, size, style), taskRuleID(tr), taskManager(tm) {
 
+
+
+    // ---------------------------------------------------------------------------------
+    // ---------------------------- Setup Initiation -----------------------------------
+    // ---------------------------------------------------------------------------------
+
+    taskRule = &taskManager.getTaskRule(taskRuleID);
+
+    for(const auto &id : taskManager.getAllProjects()) {
+
+        wxString name {taskManager.getProject(id).getName()};
+        project_map[name] = id;
+        project_strings.push_back(name);
+
+    }
+
+    // ---------------------------------------------------------------------------------
 
     wxFlexGridSizer *sizer_top = new wxFlexGridSizer(2);
 
@@ -30,18 +47,21 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
     //validator_time = new wxNumericPropertyValidator(wxNumericPropertyValidator::Unsigned);
     //validator_time = wxNumericPropertyValidator{wxNumericPropertyValidator::Unsigned};
 
-    text_name = new wxTextCtrl(this, ID_textName, taskRule.getName());
-    combo_project = new wxComboBox(this, ID_comboProject);
+    text_name = new wxTextCtrl(this, ID_textName, taskRule->getName());
+    auto project_id = taskManager.getAssignedProject(taskRuleID);
+    wxString project_name {taskManager.getProject(project_id).getName()};
+
+    combo_project = new wxComboBox(this, ID_comboProject, project_name, wxDefaultPosition, wxDefaultSize, project_strings.size(), project_strings.data());
 
     wxIntegerValidator<unsigned int> validator_time {};
-    text_time = new wxTextCtrl(this, ID_textTime, std::to_string(taskRule.getNeededTime()), wxDefaultPosition, wxDefaultSize, 0, validator_time);
+    text_time = new wxTextCtrl(this, ID_textTime, std::to_string(taskRule->getNeededTime()), wxDefaultPosition, wxDefaultSize, 0, validator_time);
 
     check_dependant = new wxCheckBox(this, ID_checkDependant, wxT("dependant"));
-    if(taskRule.isProjectDependant())
+    if(taskRule->isProjectDependant())
         check_dependant->SetValue(true);
 
     check_optional = new wxCheckBox(this, ID_checkOptional, wxT("optional"));
-    if(taskRule.isOptional())
+    if(taskRule->isOptional())
         check_optional->SetValue(true);
 
 
@@ -86,7 +106,7 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
     label_recurrenceType = new wxStaticText(this, wxID_ANY, "Recurrence Type");
 
     wxIntegerValidator<unsigned int> validator_recurrence {};
-    text_recurrence = new wxTextCtrl(this, ID_textRec, std::to_string(taskRule.getXtimes()), wxDefaultPosition, wxDefaultSize, 0, validator_recurrence);
+    text_recurrence = new wxTextCtrl(this, ID_textRec, std::to_string(taskRule->getXtimes()), wxDefaultPosition, wxDefaultSize, 0, validator_recurrence);
     label_recurrence = new wxStaticText(this, ID_labelRec, "Times a week");
 
     wxArrayString dlStrings;
@@ -99,7 +119,6 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
     label_absoluteDeadline = new wxStaticText(this, ID_labelDeadline, "Deadline");
 
     text_relativeDeadline = new wxTextCtrl(this, ID_textRec, "1");
-    //validator_relativeDeadline = new  wxNumericPropertyValidator( wxNumericPropertyValidator::Unsigned);
     label_relativeDeadline = new wxStaticText(this, wxID_ANY, "Days to Deadline");
 
 
@@ -163,36 +182,33 @@ TaskRuleDialog::TaskRuleDialog(wxWindow *parent, TaskRule &tr, wxWindowID id, co
 
 void TaskRuleDialog::OnSave(wxCommandEvent &event) {
 
- /*   if(!validator_time->Validate(text_time)){
-        wxMessageBox("The estimated time needs to be a a positive, whole number or zero.");
-        return;
-    }
-*/
-    auto name = text_name->GetLineText(0).ToStdString(wxConvUTF8);
-    taskRule.setName(name);
 
-    //auto project =
-    //taskRule.setProject();
+    auto name = text_name->GetLineText(0).ToStdString(wxConvUTF8);
+    taskRule->setName(name);
+
+    auto project_string = combo_project->GetValue();
+    auto project_id = project_map.at(project_string);
+    taskManager.transferTask(taskRuleID, project_id);
 
     auto time = std::stoi(text_time->GetLineText(0).ToStdString());
-    taskRule.setNeededTime(time);
+    taskRule->setNeededTime(time);
 
     auto dependant = check_dependant->IsChecked();
-    taskRule.setProjectDependant(dependant);
+    taskRule->setProjectDependant(dependant);
 
     auto optional = check_optional->IsChecked();
-    taskRule.setOptional(optional);
+    taskRule->setOptional(optional);
 
     auto startDate = date_start->GetValue();
     auto stringDate = startDate.Format("%F").ToStdString(wxConvUTF8);
-    taskRule.setStartDate(boost::gregorian::from_string(stringDate));
+    taskRule->setStartDate(boost::gregorian::from_string(stringDate));
 
     auto endDate = date_end->GetValue();
     auto stringEndDate = endDate.Format("%F").ToStdString(wxConvUTF8);
-    taskRule.setEndDate(boost::gregorian::from_string(stringEndDate));
+    taskRule->setEndDate(boost::gregorian::from_string(stringEndDate));
 
     auto recurrenceType = TaskRule::recurrenceTypeStrings.at(combo_recurrenceType->GetValue().ToStdString(wxConvUTF8));
-    taskRule.setRecurrenceType(recurrenceType);
+    taskRule->setRecurrenceType(recurrenceType);
 
     switch (recurrenceType) {
 
@@ -200,13 +216,13 @@ void TaskRuleDialog::OnSave(wxCommandEvent &event) {
             break;
 
         case RecurrenceType::X_IN_WEEK :
-            taskRule.setXtimes(std::stoi(text_recurrence->GetValue().ToStdString(wxConvUTF8)));
+            taskRule->setXtimes(std::stoi(text_recurrence->GetValue().ToStdString(wxConvUTF8)));
             break;
 
         case RecurrenceType::EVERY_X_DAYS :
             auto daynum = std::stoi(text_recurrence->GetValue().ToStdString(wxConvUTF8));
             TimeDefs::DateDuration dur {daynum};
-            taskRule.setEveryXDays(dur);
+            taskRule->setEveryXDays(dur);
             break;
     }
 
@@ -218,13 +234,13 @@ void TaskRuleDialog::OnSave(wxCommandEvent &event) {
             break;
 
         case DeadlineType::ABSOLUTE :
-            taskRule.setDeadlineType(DeadlineType::ABSOLUTE);
-            taskRule.setAbsoluteDeadline(boost::gregorian::from_string(date_absoluteDeadline->GetValue().Format("%F").ToStdString(wxConvUTF8)));
+            taskRule->setDeadlineType(DeadlineType::ABSOLUTE);
+            taskRule->setAbsoluteDeadline(boost::gregorian::from_string(date_absoluteDeadline->GetValue().Format("%F").ToStdString(wxConvUTF8)));
             break;
 
         case DeadlineType::RELATIVE :
-            taskRule.setDeadlineType(DeadlineType::RELATIVE);
-            taskRule.setRelativeDeadline(TimeDefs::DateDuration {std::stoi(text_relativeDeadline->GetValue().ToStdString(wxConvUTF8))});
+            taskRule->setDeadlineType(DeadlineType::RELATIVE);
+            taskRule->setRelativeDeadline(TimeDefs::DateDuration {std::stoi(text_relativeDeadline->GetValue().ToStdString(wxConvUTF8))});
             break;
 
     }

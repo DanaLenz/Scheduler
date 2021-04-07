@@ -20,15 +20,15 @@ TaskFrame::TaskFrame(wxWindow * parent, TaskManager &tm) : wxPanel(parent),
     tasklistctrl->AppendTextColumn("ID");
     tasklistctrl->AppendTextColumn("Task");
     tasklistctrl->AppendTextColumn("Project");
-    tasklistctrl->AppendTextColumn("Estimated Time (minutes)");
-    tasklistctrl->AppendToggleColumn("Optional");
-    tasklistctrl->AppendToggleColumn("Tied to Project");
-    tasklistctrl->AppendTextColumn("Start Date");
-    tasklistctrl->AppendTextColumn("End Date");
+    tasklistctrl->AppendTextColumn("Estimated Time (minutes)", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    tasklistctrl->AppendToggleColumn("Optional", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    tasklistctrl->AppendToggleColumn("Tied to Project", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    tasklistctrl->AppendTextColumn("Start Date", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    tasklistctrl->AppendTextColumn("End Date", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
     tasklistctrl->AppendTextColumn("Recurrence Type");
-    tasklistctrl->AppendTextColumn("Recurrence Value");
-    tasklistctrl->AppendTextColumn("Deadline Type");
-    tasklistctrl->AppendTextColumn("Value");
+    tasklistctrl->AppendTextColumn("Recurrence Value", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    tasklistctrl->AppendTextColumn("Deadline Type", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
+    tasklistctrl->AppendTextColumn("Value", wxDATAVIEW_CELL_INERT, -1, wxALIGN_CENTER);
 
     sizer_tasklist->Add(tasklistctrl, 1, wxEXPAND);
 
@@ -68,9 +68,8 @@ void TaskFrame::OnTest(wxCommandEvent& event) {
 void TaskFrame::OnAdd(wxCommandEvent& event) {
 
     auto id =  taskManager.createTaskRule("");
-    auto &tr = taskManager.getTaskRule(id);
 
-    TaskRuleDialog *trd = new TaskRuleDialog(this, tr);
+    TaskRuleDialog *trd = new TaskRuleDialog(this, id, taskManager);
 
     // returns 0 if adding was successful
     if(trd->ShowModal())
@@ -85,8 +84,7 @@ void TaskFrame::OnEdit(wxCommandEvent &event) {
     auto row = tasklistctrl->GetSelectedRow();
     std::string stid = tasklistctrl->GetTextValue(row, 0).ToStdString(wxConvUTF8);
     auto id = std::stoi(stid);
-    auto &tr = taskManager.getTaskRule(id);
-    TaskRuleDialog *trd = new TaskRuleDialog(this, tr);
+    TaskRuleDialog *trd = new TaskRuleDialog(this, id, taskManager);
     trd->ShowModal();
 
     refreshTaskRules();
