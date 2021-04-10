@@ -13,7 +13,7 @@
 #include "Project.h"
 #include "Task.h"
 #include "TaskRule.h"
-#include "IDGenerator.h"
+#include "../IDGenerator.h"
 
 
 /**
@@ -109,25 +109,25 @@ public:
      * @param id ID of the request project
      * @return Reference to the project
      */
-    [[nodiscard]] Project& getProject(const ID& id);
+    [[nodiscard]] Project& getProject(const ID& id) const;
     /**
      * @param id ID of the requested task
      * @return Reference to the task
      */
-    [[nodiscard]] Task& getTask(const ID& id);
+    [[nodiscard]] Task& getTask(const ID& id) const;
 
     /**
      * @param id ID of the requested task rule
      * @return Reference to the task rule
      */
-    [[nodiscard]] TaskRule& getTaskRule(const ID& id);
+    [[nodiscard]] TaskRule& getTaskRule(const ID& id) const;
 
 
         /**
          * @param task ID of the task
          * @return Reference to the project the task is assigned to
          */
-    [[nodiscard]] Project& associatedProject(const ID& task);
+    [[nodiscard]] Project& associatedProject(const ID& task) const;
     /**
      * @param project ID of the project
      * @return a vector of IDs of all assigned tasks

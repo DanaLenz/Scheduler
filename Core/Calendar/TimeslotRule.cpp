@@ -38,3 +38,20 @@ const TimeDefs::TimePeriod &TimeslotRule::getDuration() const {
 const TimeDefs::Weekday TimeslotRule::getWeekday() const {
     return weekday;
 }
+
+void TimeslotRule::addTag(const std::string &tag) {
+    tags.insert(tag);
+}
+
+void TimeslotRule::removeTag(const std::string &tag) {
+    tags.erase(tag);
+}
+
+std::vector<std::string> TimeslotRule::getAllTags() {
+
+    std::vector<std::string> result;
+    for(const auto &el : tags)
+        result.push_back(el);
+
+    return result;
+}

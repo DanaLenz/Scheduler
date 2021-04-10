@@ -12,6 +12,7 @@
 #include "../Definitions.h"
 #include "TimeslotRule.h"
 #include "Calendar.h"
+#include "../IDGenerator.h"
 
 /**
  * The Calendar Generator holds the user-created Timeslot Rules.
@@ -40,12 +41,13 @@ public:
      * @param start_time The start time as a delimited string ("23:59:59.000")
      * @param duration The duration of the timeslot in minutes
      */
-    std::vector<TimeslotRule>::const_iterator createTimeslotRule(const Weekday &weekday, const std::string start_time, const long duration);
+    TimeslotRule& createTimeslotRule(const Weekday &weekday, const std::string start_time, const long duration);
     /**
      * Delete a time slot Rule
      * @param timeslotRule Rule to be deleted
      */
     void deleteTimeslotRule(TimeslotRule& timeslotRule);
+
     /**
      * Print all rules to standard output.
      * Debugging function.
@@ -59,9 +61,14 @@ public:
 
     static const std::map<std::string, Weekday> weekdayStrings;
 
+    [[nodiscard]] TimeslotRule& getReference(const TimeDefs::Weekday&, const TimeDefs::TimePeriod&) const;
+
 private:
 
     std::vector<TimeslotRule> timeslotRules;
+
+    //IDGenerator idGen;
+    //std::map<ID, TimeslotRule> timeslotRules;
 
 };
 

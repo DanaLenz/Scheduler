@@ -10,17 +10,19 @@
 #include "wx/wx.h"
 #include "../Core/Tasks/TaskManager.h"
 #include "../Core/Calendar/CalendarGenerator.h"
+#include "../Core/TagManager.h"
 
 
 class MainFrame : public wxFrame {
 
 public:
-    MainFrame(const wxString &title, TaskManager &taskManager, CalendarGenerator &calendarGen);
+    MainFrame(const wxString &title, TaskManager &taskManager, CalendarGenerator &calendarGen, TagManager &tgm);
 
 private:
 
     TaskManager &taskManager;
     CalendarGenerator &calendarGen;
+    TagManager &tagManager;
 
     wxMenuBar *menubar;
     wxMenu *menuTasks;

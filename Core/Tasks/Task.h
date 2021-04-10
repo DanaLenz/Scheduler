@@ -7,7 +7,7 @@
 
 
 #include <string>
-#include "IDGenerator.h"
+#include "../IDGenerator.h"
 #include "../Definitions.h"
 
 /**
@@ -97,6 +97,27 @@ public:
      */
     void setStartDate(const TimeDefs::Date &startDate);
 
+    /**
+     * Tags are implemented as simple strings.
+     * This should only be called by TagManager.
+     * @param tag A string that should be taken from TagManager.getAllTags()
+     */
+    bool addTag(const std::string &tag);
+
+    /**
+     * Remove tag from the list of associated tags. This
+     * should only be called by TagManager.
+     * @param tag
+     * @return
+     */
+    bool removeTag(const std::string &tag);
+
+    [[nodiscard]] std::vector<std::string> getAllTags();
+
+    [[nodiscard]] int getTagPriority(const std::string &tag);
+
+    bool setTagPriority(const std::string &tag, int priority);
+
 
 protected:
 
@@ -104,6 +125,7 @@ protected:
     size_t neededTime;
     bool projectDependant;
     bool optional;
+    std::map<std::string, int> tags;
 
 private:
     TimeDefs::Date deadline;

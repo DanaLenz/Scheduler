@@ -60,3 +60,45 @@ const TimeDefs::Date &Task::getStartDate() const {
 void Task::setStartDate(const TimeDefs::Date &startDate) {
     Task::startDate = startDate;
 }
+
+bool Task::addTag(const std::string &tag) {
+
+    if(tags.count(tag))
+        return false;
+
+    tags[tag] = 1;
+    return true;
+
+}
+
+bool Task::removeTag(const std::string &tag) {
+
+    if(!tags.count(tag))
+        return false;
+
+    tags.erase(tag);
+    return true;
+
+}
+
+std::vector<std::string> Task::getAllTags() {
+
+    std::vector<std::string> result;
+    for(const auto &pair : tags)
+        result.push_back(pair.first);
+
+    return result;
+}
+
+int Task::getTagPriority(const std::string &tag) {
+    return tags.at(tag);
+}
+
+bool Task::setTagPriority(const std::string &tag, int priority) {
+
+    if(!tags.count(tag))
+        return false;
+
+    tags.at(tag) = priority;
+    return true;
+}

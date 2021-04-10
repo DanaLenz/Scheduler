@@ -5,7 +5,7 @@
 
 #include "CalendarGenerator.h"
 
-std::vector<TimeslotRule>::const_iterator CalendarGenerator::createTimeslotRule(const Weekday &weekday, const std::string start_time, const long duration) {
+TimeslotRule& CalendarGenerator::createTimeslotRule(const Weekday &weekday, const std::string start_time, const long duration) {
 
 
    // if(weekday_num < 1 || weekday_num > 7)
@@ -35,7 +35,7 @@ std::vector<TimeslotRule>::const_iterator CalendarGenerator::createTimeslotRule(
 
         if(compare.getWeekday() < boost_weekday)
             continue;
-
+        /*
         //check overlap
         else if(compare.getWeekday() == boost_weekday) {
             if (compare.getStartTime() < boost_startTime &&
@@ -49,16 +49,16 @@ std::vector<TimeslotRule>::const_iterator CalendarGenerator::createTimeslotRule(
 
             else if (compare.getStartTime() == boost_startTime)
                     return timeslotRules.end();
-        }
+        }*/
         else  // case: later weekday, position found
             break;
     }
 
     //TODO: this wont work if the position is at end of vector
     auto iter = timeslotRules.begin() + insert;
-    timeslotRules.emplace(iter, TimeslotRule {weekday, boost_startTime, boost_duration});
+    auto ret = timeslotRules.emplace(iter, TimeslotRule {weekday, boost_startTime, boost_duration});
 
-    return iter;
+    return *ret;
 }
 
 
@@ -126,4 +126,11 @@ std::vector<TimeslotRule *> CalendarGenerator::getTimeslotRules() {
     }
 
     return result;
+}
+
+TimeslotRule& CalendarGenerator::getReference(const TimeDefs::Weekday &weekday, const TimeDefs::TimePeriod &startTime) const {
+
+    for(auto &tsr : timeslotRules)
+        if(tsr.getWeekday() == weekday && tsr.getStartTime() == startTime)
+            return const_cast<TimeslotRule &>(tsr); //this is bad. i am aware that this is bad.
 }

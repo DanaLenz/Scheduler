@@ -6,9 +6,10 @@
 #include "TaskFrame.h"
 #include "TimeslotFrame.h"
 #include "ProjectPanel.h"
+#include "TagPanel.h"
 
-MainFrame::MainFrame(const wxString &title, TaskManager &tm, CalendarGenerator &cg) : wxFrame(NULL, wxID_ANY, title),
-    taskManager(tm), calendarGen(cg) {
+MainFrame::MainFrame(const wxString &title, TaskManager &tm, CalendarGenerator &cg, TagManager &tgm) : wxFrame(NULL, wxID_ANY, title),
+    taskManager(tm), calendarGen(cg), tagManager(tgm) {
 
 
     // ---------------------------------------------------------------------------------
@@ -52,6 +53,9 @@ MainFrame::MainFrame(const wxString &title, TaskManager &tm, CalendarGenerator &
 
     TimeslotFrame *timeslotPanel = new TimeslotFrame(notebook, calendarGen);
     notebook->AddPage(timeslotPanel, "Timeslots");
+
+    TagPanel *tagPanel = new TagPanel(notebook, tagManager, taskManager, calendarGen);
+    notebook->AddPage(tagPanel, "Tags");
 
     SetClientSize(notebook->GetBestSize());
 

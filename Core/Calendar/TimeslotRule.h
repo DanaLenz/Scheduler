@@ -8,6 +8,7 @@
 #include "../Definitions.h"
 #include "Timeslot.h"
 #include <vector>
+#include <set>
 
 /**
  * Contains the rule to generate one timeslot per week.
@@ -36,13 +37,32 @@ public:
      */
     [[nodiscard]] const TimeDefs::Weekday getWeekday() const;
 
+    /**
+     * Tags are implemented as simple strings.
+     * This should only be called by TagManager.
+     * @param tag A string that should be taken from TagManager.getAllTags()
+     */
+    void addTag(const std::string &tag);
+
+    /**
+     * Remove tag from the list of associated tags. This
+     * should only be called by TagManager.
+     * @param tag
+     * @return
+     */
+    void removeTag(const std::string &tag);
+
+
+    [[nodiscard]] std::vector<std::string> getAllTags();
+
+
 private:
 
     TimeDefs::TimePeriod startTime;
     TimeDefs::TimePeriod duration;
     TimeDefs::Weekday weekday;
 
-//    std::vector<Tag> tags;
+    std::set<std::string> tags;
 
 };
 

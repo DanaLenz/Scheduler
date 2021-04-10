@@ -30,13 +30,19 @@ bool schedulerApp::OnInit() {
 
     auto monday = calendarGenerator.createTimeslotRule(Weekday::MONDAY, "15:00:00", 2);
 
+    tagManager.addTag("Afternoon");
+    tagManager.addTag(monday, "Afternoon");
+
+
     // ------------------------------
 
 
-    MainFrame *mainFrame = new MainFrame("", taskManager, calendarGenerator);
+    MainFrame *mainFrame = new MainFrame("", taskManager, calendarGenerator, tagManager);
 
     mainFrame->Show(true);
 
     return true;
 
 }
+
+schedulerApp::schedulerApp() : wxApp(), taskManager{}, calendarGenerator{}, tagManager{taskManager, calendarGenerator} {}

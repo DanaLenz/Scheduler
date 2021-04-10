@@ -20,14 +20,14 @@ if(Boost_FOUND)
             Scheduler main.cpp
             Core/Tasks/Task.cpp Core/Tasks/Task.h Core/Tasks/Project.cpp Core/Tasks/Project.h
             Core/Tasks/TaskManager.cpp Core/Tasks/TaskManager.h
-            Core/Tasks/IDGenerator.cpp Core/Tasks/IDGenerator.h
+            Core/IDGenerator.cpp Core/IDGenerator.h
             Core/Tasks/TaskRule.cpp Core/Tasks/TaskRule.h
             Core/Calendar/Timeslot.cpp Core/Calendar/Timeslot.h
             Core/Calendar/CalendarGenerator.cpp Core/Calendar/CalendarGenerator.h
             Core/Calendar/TimeslotRule.cpp Core/Calendar/TimeslotRule.h
             Core/Definitions.h
+            Core/TagManager.cpp Core/TagManager.h
             Core/Calendar/Calendar.cpp Core/Calendar/Calendar.h
-            Core/Tag.cpp Core/Tag.h
             UI/schedulerApp.cpp UI/schedulerApp.h
             UI/TaskFrame.cpp UI/TaskFrame.h
             UI/wxDefs.h
@@ -36,7 +36,9 @@ if(Boost_FOUND)
             UI/TimeslotDialog.cpp UI/TimeslotDialog.h
             UI/MainFrame.cpp UI/MainFrame.h
             UI/ProjectPanel.cpp UI/ProjectPanel.h
-            UI/ProjectDialog.cpp UI/ProjectDialog.h)
+            UI/ProjectDialog.cpp UI/ProjectDialog.h
+            UI/Timetable.cpp UI/Timetable.h
+            UI/TagPanel.cpp UI/TagPanel.h)
 
 #    target_link_libraries(progname Boost::filesystem)
     target_link_libraries(Scheduler ${wxWidgets_LIBRARIES})

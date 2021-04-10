@@ -80,19 +80,19 @@ void TaskManager::assignProject(ID task, ID project){
     projectOfTask[task] = project;
 }
 
-Task& TaskManager::getTask(const ID& id) {
+Task& TaskManager::getTask(const ID& id) const {
     return *allTasks.at(id);
 }
 
-Project& TaskManager::getProject(const ID& id) {
+Project& TaskManager::getProject(const ID& id) const {
     return *allProjects.at(id);
 }
 
-TaskRule& TaskManager::getTaskRule(const ID& id) {
+TaskRule& TaskManager::getTaskRule(const ID& id) const {
     return *allTaskRules.at(id);
 }
 
-Project& TaskManager::associatedProject(const ID& task) {
+Project& TaskManager::associatedProject(const ID& task) const {
     return getProject(getAssignedProject(task));
 }
 
